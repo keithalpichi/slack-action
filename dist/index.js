@@ -17,7 +17,7 @@ module.exports = JSON.parse("{\"_args\":[[\"@slack/webhook@6.0.0\",\"/Users/keit
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.BaseGithubSlackAdapter = void 0;
-var slack_1 = __nccwpck_require__(568);
+var slack_1 = __nccwpck_require__(5403);
 var BaseGithubSlackAdapter = /** @class */ (function () {
     function BaseGithubSlackAdapter(inputs) {
         var _a;
@@ -424,7 +424,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 var core = __importStar(__nccwpck_require__(2186));
-var slack_1 = __nccwpck_require__(568);
+var slack_1 = __nccwpck_require__(5403);
 var github_1 = __nccwpck_require__(1294);
 var inputs_1 = __nccwpck_require__(2192);
 function run() {
@@ -472,7 +472,98 @@ exports.run = run;
 
 /***/ }),
 
-/***/ 568:
+/***/ 4923:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DividerBlock = exports.HeaderBlock = exports.SectionBlock = void 0;
+var SectionBlock = /** @class */ (function () {
+    function SectionBlock(text) {
+        this.type = 'section';
+        this.fields = text.map(function (t) { return ({
+            type: 'mrkdwn',
+            text: t
+        }); });
+    }
+    return SectionBlock;
+}());
+exports.SectionBlock = SectionBlock;
+var HeaderBlock = /** @class */ (function () {
+    function HeaderBlock(text) {
+        this.type = 'header';
+        if (typeof (text) == 'string') {
+            this.text = {
+                type: 'plain_text',
+                text: text
+            };
+        }
+        else {
+            this.text = text;
+        }
+    }
+    return HeaderBlock;
+}());
+exports.HeaderBlock = HeaderBlock;
+exports.DividerBlock = {
+    type: 'divider'
+};
+
+
+/***/ }),
+
+/***/ 5403:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DividerBlock = exports.SectionBlock = exports.HeaderBlock = exports.Markdown = exports.Slack = void 0;
+var slack_1 = __nccwpck_require__(9146);
+Object.defineProperty(exports, "Slack", ({ enumerable: true, get: function () { return slack_1.Slack; } }));
+var markdown_1 = __nccwpck_require__(1719);
+Object.defineProperty(exports, "Markdown", ({ enumerable: true, get: function () { return markdown_1.Markdown; } }));
+var block_1 = __nccwpck_require__(4923);
+Object.defineProperty(exports, "SectionBlock", ({ enumerable: true, get: function () { return block_1.SectionBlock; } }));
+Object.defineProperty(exports, "HeaderBlock", ({ enumerable: true, get: function () { return block_1.HeaderBlock; } }));
+Object.defineProperty(exports, "DividerBlock", ({ enumerable: true, get: function () { return block_1.DividerBlock; } }));
+
+
+/***/ }),
+
+/***/ 1719:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Markdown = void 0;
+var Markdown = /** @class */ (function () {
+    function Markdown() {
+    }
+    Markdown.link = function (url, text) {
+        return "<" + url + "|" + text + ">";
+    };
+    Markdown.stepIcon = function (status) {
+        if (status.toLowerCase() === 'success')
+            return ':heavy_check_mark:';
+        if (status.toLowerCase() === 'failure')
+            return ':x:';
+        if (status.toLowerCase() === 'cancelled')
+            return ':exclamation:';
+        if (status.toLowerCase() === 'skipped')
+            return ':no_entry_sign:';
+        return ":grey_question: " + status;
+    };
+    return Markdown;
+}());
+exports.Markdown = Markdown;
+
+
+/***/ }),
+
+/***/ 9146:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -519,10 +610,7 @@ var webhook_1 = __nccwpck_require__(1095);
 var Slack = /** @class */ (function () {
     function Slack(args) {
         this.webhookUrl = args.webhookUrl;
-        this.webhookOptions = args.webhookOptions || {
-            username: 'Github Action',
-            icon_url: 'https://octodex.github.com/images/original.png'
-        };
+        this.webhookOptions = args.webhookOptions || {};
         this.channel = args.channel;
     }
     Slack.prototype.notify = function (message) {

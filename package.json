@@ -5,10 +5,11 @@
   "main": "./lib/index.js",
   "scripts": {
     "compile-ts": "tsc",
-    "compile": "ncc build",
+    "compile": "ncc build --target es2015",
     "test": "jest --verbose",
     "lint": "eslint src/**/*.ts tests/**/*.ts",
-    "build": "npm run compile-ts && npm run lint && npm run compile && npm run test"
+    "clean": "rm -rf ./lib/*",
+    "build": "npm run clean && npm run compile-ts && npm run lint && npm run compile && npm run test"
   },
   "keywords": [],
   "author": "",
