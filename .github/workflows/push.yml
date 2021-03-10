@@ -16,4 +16,4 @@ jobs:
       - uses: ./
         with:
           template: plain1
-          template_args: ${{ toJson({ message: "Everything looks good!" }) }}
+          template_args: '{ "message": "Everything looks good!" }'
