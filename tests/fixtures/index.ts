@@ -36,7 +36,7 @@ export const githubActionActionEnvs = {
   GITHUB_SERVER_URL: 'https://github.com',
   GITHUB_RUN_ID: '1',
   GITHUB_RUN_NUMBER: '2',
-  GITHUB_JOB: 'success',
+  GITHUB_JOB: 'build',
   GITHUB_EVENT_NAME: 'push',
   GITHUB_WORKFLOW: 'workflow',
   GITHUB_SHA: 'a03023nde0a92n',

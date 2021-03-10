@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import { Slack } from './slack'
-import { Github } from './github'
+import { Github } from './github/github'
 import { Inputs } from './github/inputs'
 
 export async function run(): Promise<void> {
@@ -17,9 +17,8 @@ export async function run(): Promise<void> {
       webhookUrl,
       channel: inputs.channel
     })
-    const eventName = process.env.GITHUB_EVENT_NAME
-    const jobName = process.env.GITHUB_JOB || ''
-    const github = Github.build(jobName, inputs)
+    const eventName = process.env.GITHUB_EVENT_NAME || ''
+    const github = Github.build(eventName, inputs)
     if (!github) {
       core.warning(`Github event "${eventName}" not yet supported`)
     } else {
