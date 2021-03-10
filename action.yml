@@ -1,0 +1,24 @@
+name: Slack
+description: A Github Action that sends Slack notifications from within Github Action workflows
+author: keithalpichi
+inputs:
+  template:
+    description: The design template to use for the Slack notification. View the README for details of each template
+    required: true
+  template_args:
+    description: The template arguments to provide to the template as a JSON string
+  status:
+    description: Specify success, failure, cancelled or a custom status
+    required: false
+  steps:
+    description: Report on the status of individual steps
+    required: false
+  channel:
+    description: Override default channel with different channel or username
+    required: false
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: mail
+  color: red

@@ -1,0 +1,38 @@
+{
+  "name": "slack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "compile-ts": "tsc",
+    "compile": "ncc build",
+    "test": "jest --verbose",
+    "lint": "eslint src/**/*.ts tests/**/*.ts",
+    "build": "npm run compile-ts && npm run lint && npm run compile && npm run test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0",
+    "@octokit/webhooks": "^8.4.1",
+    "@slack/webhook": "^6.0.0",
+    "@types/node": "^14.14.31"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.8",
+    "@babel/preset-env": "^7.13.8",
+    "@babel/preset-typescript": "^7.13.0",
+    "@slack/types": "^2.0.0",
+    "@types/jest": "^26.0.20",
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
+    "@vercel/ncc": "^0.27.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.21.0",
+    "jest": "^26.6.3",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.5"
+  }
+}
