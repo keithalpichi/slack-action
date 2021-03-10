@@ -1,7 +1,6 @@
 import * as core from '@actions/core'
 import { Slack } from './slack'
-import { Github } from './github/github'
-import { Inputs } from './github/inputs'
+import { Github, Inputs } from './github'
 
 export async function run(): Promise<void> {
   try {

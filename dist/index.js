@@ -152,6 +152,32 @@ exports.Github = Github;
 
 /***/ }),
 
+/***/ 3877:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Inputs = exports.Github = void 0;
+__exportStar(__nccwpck_require__(5481), exports);
+var github_1 = __nccwpck_require__(1294);
+Object.defineProperty(exports, "Github", ({ enumerable: true, get: function () { return github_1.Github; } }));
+var inputs_1 = __nccwpck_require__(2192);
+Object.defineProperty(exports, "Inputs", ({ enumerable: true, get: function () { return inputs_1.Inputs; } }));
+
+
+/***/ }),
+
 /***/ 2192:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -425,8 +451,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 var core = __importStar(__nccwpck_require__(2186));
 var slack_1 = __nccwpck_require__(5403);
-var github_1 = __nccwpck_require__(1294);
-var inputs_1 = __nccwpck_require__(2192);
+var github_1 = __nccwpck_require__(3877);
 function run() {
     return __awaiter(this, void 0, void 0, function () {
         var webhookUrl, inputs, slack, eventName, github, message, error_1;
@@ -440,7 +465,7 @@ function run() {
                             'in order for this Github Action to work.');
                         return [2 /*return*/];
                     }
-                    inputs = new inputs_1.Inputs();
+                    inputs = new github_1.Inputs();
                     slack = new slack_1.Slack({
                         webhookUrl: webhookUrl,
                         channel: inputs.channel
