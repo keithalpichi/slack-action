@@ -1,0 +1,19 @@
+name: Plain Message
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - feature/**
+      - release/**
+jobs:
+  notify:
+    runs-on: ubuntu-20.04
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        with:
+          template: plain1
+          template_args: ${{ toJson({ message: "Everything looks good!" }) }}
