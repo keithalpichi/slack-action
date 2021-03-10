@@ -181,6 +181,48 @@ exports.Github = Github;
 
 /***/ }),
 
+/***/ 2192:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Inputs = void 0;
+var core = __importStar(__nccwpck_require__(2186));
+var Inputs = /** @class */ (function () {
+    function Inputs() {
+        this.template = core.getInput('template', { required: true });
+        this.status = core.getInput('status');
+        this.steps = JSON.parse(core.getInput('steps') || '{}');
+        this.channel = core.getInput('channel');
+        this.template_args = JSON.parse(core.getInput('template_args') || '{}');
+    }
+    return Inputs;
+}());
+exports.Inputs = Inputs;
+
+
+/***/ }),
+
 /***/ 4822:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -258,6 +300,7 @@ exports.run = void 0;
 var core = __importStar(__nccwpck_require__(2186));
 var slack_1 = __nccwpck_require__(568);
 var github_1 = __nccwpck_require__(5928);
+var inputs_1 = __nccwpck_require__(2192);
 function run() {
     return __awaiter(this, void 0, void 0, function () {
         var webhookUrl, inputs, slack, eventName, jobName, github, message, error_1;
@@ -271,7 +314,7 @@ function run() {
                             'in order for this Github Action to work.');
                         return [2 /*return*/];
                     }
-                    inputs = new github_1.Inputs();
+                    inputs = new inputs_1.Inputs();
                     slack = new slack_1.Slack({
                         webhookUrl: webhookUrl,
                         channel: inputs.channel
