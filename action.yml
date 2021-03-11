@@ -5,8 +5,12 @@ inputs:
   template:
     description: The design template to use for the Slack notification. View the README for details of each template
     required: true
-  template_args:
-    description: The template arguments to provide to the template as a JSON string
+  title:
+    description: The title to display on the Slack notification
+    required: false
+  description:
+    description: The description to display on the Slack notification
+    required: false
   status:
     description: Specify success, failure, cancelled or a custom status
     required: false

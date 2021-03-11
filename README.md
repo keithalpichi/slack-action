@@ -20,22 +20,26 @@ A highly-configurable Github Action that sends Slack notifications from within G
 
 ## Github Action Inputs
 
-The following inputs can be provided within the `with` key in a `step`.
+required
+- [`template`](#template)
 
-- [`template` (required)](#template)
+optional
+
+Usage of these optional inputs is determined by the template you use. See the [Templates](#templates) section below for images and details of each template.
 - [`title`](#title)
+- [`description`](#description)
 - [`status`](#status)
 - [`channel`](#channel)
 
-### `template` (required)
-**`string`**
+### `template`
+**`string`** (required)
 
 The template ID that identifies the template to use for the Slack notification message. You can use the following templates: 
 
-- `plain1`- a template for plain messages that displays a custom message.
+- `plain1`- a template for plain messages that displays a custom description.
 - `plain2`- a template for plain messages that displays the link to the current Github Action run.
 
-See the [Templates](#templates) below for images and details of each template.
+See the [Templates](#templates) section below for images and details of each template.
 
 #### Example usage
 ```
@@ -47,7 +51,16 @@ See the [Templates](#templates) below for images and details of each template.
 ### `title`
 **`string`**
 
-The title to display on the Slack notification message.
+The title to display on the Slack notification message. If this is not provided, "Github Action" is used.
+
+#### Example usage
+```
+- name: Send Slack Notification
+  uses: keithalpichi/slack
+  with:
+    template: plain1
+    title: Success
+```
 
 ### `description`
 **`string`**
