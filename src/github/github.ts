@@ -3,7 +3,7 @@ import {
   GithubSlackAdapter,
 } from './adapter'
 import { Inputs } from './inputs'
-import { Plain, Push } from './templates'
+import { Plain } from './templates'
 
 export class Github {
   static supportedEvents = new Set([
@@ -15,15 +15,10 @@ export class Github {
     }
     switch (inputs.template) {
       case 'plain1':
+      case 'plain2':
         return Plain.build(inputs)
       default:
         break
-    }
-    switch (eventName) {
-      case 'push':
-        return Push.build(inputs)
-      default:
-        return undefined
     }
   }
 }

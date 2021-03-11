@@ -23,8 +23,8 @@ The following inputs can be provided within the `with` key in a `step`.
 
 The template ID that identifies the template to use for the Slack notification message. You can use the following templates: 
 
-- `plain1`- a template for plain messages
-- `push1`- a template for messages on push events
+- `plain1`- a template for plain messages that displays a custom message.
+- `plain2`- a template for plain messages that displays the link to the current Github Action run.
 
 #### Example usage
 ```
@@ -55,13 +55,13 @@ Using the `job.status` context:
 ```
 with:
   status: ${{ job.status }}
-  template: push1
+  template: plain2
 ```
 Providing a custom status:
 ```
 with:
   status: all green
-  template: push1
+  template: plain2
 ```
 
 ### `channel`

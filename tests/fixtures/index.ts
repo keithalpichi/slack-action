@@ -11,7 +11,7 @@ export function setProcessEnvs(envs: Envs, allow_undefined?: boolean): void {
 }
 
 export const githubActionInputEnvs = {
-  template: '1',
+  template: 'plain1',
   template_args: '{}',
   status: 'success',
   channel: '#cicd',

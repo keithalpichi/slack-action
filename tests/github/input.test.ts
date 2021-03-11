@@ -4,7 +4,7 @@ import { githubActionInputEnvs, setInputEnvs } from '../fixtures'
 describe('Inputs', () => {
   test('required inputs provided to Github Action', () => {
     setInputEnvs({
-      template: '1'
+      template: 'plain1'
     })
     const i = new Inputs()
     expect(i.template).toBe(githubActionInputEnvs.template)
