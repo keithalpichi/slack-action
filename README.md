@@ -1,11 +1,14 @@
 # Slack
 
-A highly-configurable Github Action that sends Slack notifications from within Github Action workflows.
+A Github Action that sends custom Slack notifications by use of templates.
 
-## Usage
+## Configuration
 
 1. Create an [Incoming Webhook](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) in your Slack workspace. Copy the webhook URL, you'll need it in the next step.
 1. Create a [Github secret](https://docs.github.com/en/actions/reference/encrypted-secrets) in the settings tab in a repository, or organization if you want it to be used across all repositories within an organization. Give it the name "SLACK_WEBHOOK_URL" and value as the webhook URL.
+
+## Usage
+
 1. Add "SLACK_WEBHOOK_URL" as an [`env`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#env) to every workflow file you want to use this action in.
     ```
     env:
@@ -20,16 +23,25 @@ A highly-configurable Github Action that sends Slack notifications from within G
 
 ## Github Action Inputs
 
-required
-- [`template`](#template)
+Below are required inputs.
 
-optional
+| input | short description |
+| - | - |
+| [`template`](#template) | The template ID that identifies the template to use for the Slack notification message.  |
 
-Usage of these optional inputs is determined by the template you use. See the [Templates](#templates) section below for images and details of each template.
-- [`title`](#title)
-- [`description`](#description)
-- [`status`](#status)
-- [`channel`](#channel)
+Below are inputs that are required or optional depending on the template you use.
+
+| input | short description |
+| - | - |
+| [`title`](#title) | The title to display on the Slack notification message. If this is not provided, "Github Action" is used. |
+| [`description`](#description) | The description to display on the Slack notification message. |
+| [`status`](#status) | The status to report. Have Github report the job's status or provide your own. |
+
+Below are inputs that are optional and used to override the default configuration settings assigned to the Slack Incoming Webhook.
+
+| input | short description |
+| - | - |
+| [`channel`](#channel) | The channel or user to send the Slack message to. |
 
 ### `template`
 **`string`** (required)
@@ -132,21 +144,18 @@ This is useful if you want to run this Github Action only when a certain status 
 steps:
   ...
   - name: Always notify Slack no matter what happens
-    status: ${{ job.status }}
     if: ${{ always() }}
 ```
 ```
 steps:
   ...
   - name: Only notify Slack when it is successful
-    status: ${{ job.status }}
     if: ${{ success() }}
 ```
 ```
 steps:
   ...
   - name: Only notify Slack when there is a failure
-    status: ${{ job.status }}
     if: ${{ failure() }}
 ```
 
