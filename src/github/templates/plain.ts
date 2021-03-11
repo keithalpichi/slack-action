@@ -25,7 +25,7 @@ export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements Git
   createSlackMessage(): IncomingWebhookSendArguments {
     const message: IncomingWebhookSendArguments = {
       blocks: [
-        this.header(),
+        this.header(this.inputs.title),
         this.divider(),
         this.full_section_block(this.inputs.template_args.message)
       ]
@@ -36,21 +36,10 @@ export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements Git
 
 export class PlainTwo extends BaseGithubSlackAdapter<PlainInputs> implements GithubSlackAdapter {
   createSlackMessage(): IncomingWebhookSendArguments {
-    let title = this.inputs.status
-    switch (this.inputs.status) {
-      case 'success':
-      case 'failure':
-      case 'skipped':
-      case 'cancelled':
-        title = this.title(this.inputs.status)
-        break
-      default:
-        break
-    }
     const link = this.link(this.workflowUrl, this.workflowUrl)
     const message: IncomingWebhookSendArguments = {
       blocks: [
-        this.header(title),
+        this.header(this.inputs.title),
         this.divider(),
         this.full_section_block(link)
       ]
