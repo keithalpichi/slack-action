@@ -21,6 +21,7 @@ var slack_1 = __nccwpck_require__(5403);
 var BaseGithubSlackAdapter = /** @class */ (function () {
     function BaseGithubSlackAdapter(inputs) {
         var _a;
+        this.inputValidated = false;
         this.inputs = inputs;
         this.jobName = process.env.GITHUB_JOB || '';
         this.eventName = process.env.GITHUB_EVENT_NAME || '';
@@ -129,13 +130,14 @@ var Github = /** @class */ (function () {
     function Github() {
     }
     Github.build = function (eventName, inputs) {
+        var _a;
         if (!eventName || !eventName.length || !Github.supportedEvents.has(eventName)) {
             return undefined;
         }
         switch (inputs.template) {
             case 'plain1':
             case 'plain2':
-                return templates_1.Plain.build(inputs);
+                return (_a = templates_1.Plain.build(inputs)) === null || _a === void 0 ? void 0 : _a.validateInput();
             default:
                 break;
         }
@@ -209,7 +211,8 @@ var Inputs = /** @class */ (function () {
         this.status = core.getInput('status');
         this.steps = JSON.parse(core.getInput('steps') || '{}');
         this.channel = core.getInput('channel');
-        this.template_args = JSON.parse(core.getInput('template_args') || '{}');
+        this.title = core.getInput('title');
+        this.description = core.getInput('description');
     }
     return Inputs;
 }());
@@ -257,9 +260,29 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PlainTwo = exports.PlainOne = exports.Plain = void 0;
 var adapter_1 = __nccwpck_require__(8026);
+var core = __importStar(__nccwpck_require__(2186));
 var Plain = /** @class */ (function () {
     function Plain() {
     }
@@ -281,12 +304,21 @@ var PlainOne = /** @class */ (function (_super) {
     function PlainOne() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    PlainOne.prototype.validateInput = function () {
+        if (!this.inputs.description || !this.inputs.description.length) {
+            core.setFailed('Invalid "description" input provided ' +
+                'template "plain1". Please ensure it is a' +
+                'non-empty string.');
+        }
+        this.inputValidated = true;
+        return this;
+    };
     PlainOne.prototype.createSlackMessage = function () {
         var message = {
             blocks: [
-                this.header(),
+                this.header(this.inputs.title),
                 this.divider(),
-                this.full_section_block(this.inputs.template_args.message)
+                this.full_section_block(this.inputs.description)
             ]
         };
         return message;
@@ -299,22 +331,15 @@ var PlainTwo = /** @class */ (function (_super) {
     function PlainTwo() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    PlainTwo.prototype.validateInput = function () {
+        this.inputValidated = true;
+        return this;
+    };
     PlainTwo.prototype.createSlackMessage = function () {
-        var title = this.inputs.status;
-        switch (this.inputs.status) {
-            case 'success':
-            case 'failure':
-            case 'skipped':
-            case 'cancelled':
-                title = this.title(this.inputs.status);
-                break;
-            default:
-                break;
-        }
         var link = this.link(this.workflowUrl, this.workflowUrl);
         var message = {
             blocks: [
-                this.header(title),
+                this.header(this.inputs.title),
                 this.divider(),
                 this.full_section_block(link)
             ]
