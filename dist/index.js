@@ -168,12 +168,11 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Inputs = exports.Github = void 0;
+exports.Github = void 0;
 __exportStar(__nccwpck_require__(5481), exports);
 var github_1 = __nccwpck_require__(1294);
 Object.defineProperty(exports, "Github", ({ enumerable: true, get: function () { return github_1.Github; } }));
-var inputs_1 = __nccwpck_require__(2192);
-Object.defineProperty(exports, "Inputs", ({ enumerable: true, get: function () { return inputs_1.Inputs; } }));
+__exportStar(__nccwpck_require__(2192), exports);
 
 
 /***/ }),
@@ -213,6 +212,12 @@ var Inputs = /** @class */ (function () {
         this.channel = core.getInput('channel');
         this.title = core.getInput('title');
         this.description = core.getInput('description');
+        this.username = core.getInput('username');
+        this.icon_emoji = core.getInput('icon_emoji');
+        this.icon_url = core.getInput('icon_url');
+        this.text = core.getInput('text');
+        var text = core.getInput('text');
+        this.link_names = (text === null || text === void 0 ? void 0 : text.length) ? Boolean(text) : false;
     }
     return Inputs;
 }());
@@ -444,10 +449,7 @@ function run() {
                         return [2 /*return*/];
                     }
                     inputs = new github_1.Inputs();
-                    slack = new slack_1.Slack({
-                        webhookUrl: webhookUrl,
-                        channel: inputs.channel
-                    });
+                    slack = new slack_1.Slack(webhookUrl, inputs);
                     eventName = process.env.GITHUB_EVENT_NAME || '';
                     github = github_1.Github.build(eventName, inputs);
                     if (!!github) return [3 /*break*/, 1];
@@ -583,6 +585,17 @@ exports.Markdown = Markdown;
 
 "use strict";
 
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -623,11 +636,20 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Slack = void 0;
 var webhook_1 = __nccwpck_require__(1095);
 var Slack = /** @class */ (function () {
-    function Slack(args) {
-        this.webhookUrl = args.webhookUrl;
-        this.webhookOptions = args.webhookOptions || {};
-        this.channel = args.channel;
+    function Slack(webhookUrl, inputs) {
+        this.webhookUrl = webhookUrl;
+        this.webhookOptions = {
+            username: inputs.username || undefined,
+            icon_emoji: inputs.icon_emoji || undefined,
+            icon_url: inputs.icon_url || undefined,
+            channel: inputs.channel || undefined,
+            text: inputs.text || undefined,
+            link_names: inputs.link_names || undefined
+        };
     }
+    Slack.prototype.updateDefaults = function (original) {
+        return __assign(__assign({}, this.webhookOptions), original);
+    };
     Slack.prototype.notify = function (message) {
         return __awaiter(this, void 0, void 0, function () {
             var webhook;
@@ -635,6 +657,7 @@ var Slack = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         webhook = new webhook_1.IncomingWebhook(this.webhookUrl);
+                        message = this.updateDefaults(message);
                         return [4 /*yield*/, webhook.send(message)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
