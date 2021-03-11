@@ -2,26 +2,27 @@ import {
   IncomingWebhook, IncomingWebhookResult,
   IncomingWebhookDefaultArguments, IncomingWebhookSendArguments
 } from '@slack/webhook'
-
-type SlackOptions = {
-  webhookUrl: string
-  webhookOptions?: IncomingWebhookDefaultArguments
-  channel?: string
-}
+import { Inputs } from '../github'
 
 export class Slack {
   webhookOptions: IncomingWebhookDefaultArguments
   webhookUrl: string
-  channel?: string
 
-  constructor(args: SlackOptions) {
-    this.webhookUrl = args.webhookUrl
-    this.webhookOptions = args.webhookOptions || {}
-    this.channel = args.channel
+  constructor(webhookUrl: string, inputs: Inputs) {
+    this.webhookUrl = webhookUrl
+    this.webhookOptions = {
+      channel: inputs.channel || undefined
+    }
+  }
+
+  private updateDefaults(original: IncomingWebhookSendArguments): IncomingWebhookSendArguments {
+    // TODO:
+    return original
   }
 
   async notify(message: IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
     const webhook = new IncomingWebhook(this.webhookUrl)
+    message = this.updateDefaults(message)
     return await webhook.send(message)
   }
 }

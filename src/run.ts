@@ -12,10 +12,7 @@ export async function run(): Promise<void> {
       return
     }
     const inputs = new Inputs()
-    const slack = new Slack({
-      webhookUrl,
-      channel: inputs.channel
-    })
+    const slack = new Slack(webhookUrl, inputs)
     const eventName = process.env.GITHUB_EVENT_NAME || ''
     const github = Github.build(eventName, inputs)
     if (!github) {
