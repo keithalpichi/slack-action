@@ -1,7 +1,11 @@
 import { Inputs } from '../../src/github'
-import { githubActionInputEnvs, setInputEnvs } from '../fixtures'
+import { githubActionInputEnvs, setInputEnvs, unsetInputEnvs } from '../fixtures'
 
 describe('Inputs', () => {
+  afterEach(() => {
+    unsetInputEnvs()
+  })
+
   test('required inputs provided to Github Action', () => {
     setInputEnvs({
       template: 'plain1'
@@ -13,6 +17,7 @@ describe('Inputs', () => {
   test('optional inputs provided to Github Action', () => {
     setInputEnvs(githubActionInputEnvs)
     const i = new Inputs()
+    expect(i.title).toBe(githubActionInputEnvs.title)
     expect(i.status).toBe(githubActionInputEnvs.status)
     expect(i.channel).toBe(githubActionInputEnvs.channel)
     expect(i.steps).toEqual(JSON.parse(githubActionInputEnvs.steps))
