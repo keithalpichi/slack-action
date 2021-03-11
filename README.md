@@ -153,33 +153,37 @@ steps:
 ## Templates
 
 ### `plain1`
-A message with a text description and default header "Github Action"
+A message with a text description and default title. This template uses the following inputs:
+- description (required)- the description in the message
+- title - if provided overrides the default title "Github Action" 
 ```
 with:
   template: plain1
   description: We're all green!
 ```
-![a](https://user-images.githubusercontent.com/14797743/110732183-80472f80-81d8-11eb-96d3-a37404c09b33.png)
+![](https://user-images.githubusercontent.com/14797743/110732183-80472f80-81d8-11eb-96d3-a37404c09b33.png)
 
 ### `plain2`
+A message with a link to the Github Action run and default title. This template uses the following inputs:
+- title - if provided overrides the default title "Github Action" 
 ```
 with:
   template: plain2
 ```
-A message with a link to the Github Action run and default header "Github Action"
-![a](https://user-images.githubusercontent.com/14797743/110732185-80dfc600-81d8-11eb-94ac-5eb238977993.png)
+
+![](https://user-images.githubusercontent.com/14797743/110732185-80dfc600-81d8-11eb-94ac-5eb238977993.png)
 ```
 with:
-  status: ${{ job.status }}
+  title: ${{ job.status }}
   template: plain2
 ```
-A message with a link to the Github Action run and job status as the header.
-![a](https://user-images.githubusercontent.com/14797743/110732179-7fae9900-81d8-11eb-803f-285507a0aa62.png)
+A message with a link to the Github Action run and job status as the title.
+![](https://user-images.githubusercontent.com/14797743/110749277-c959ac80-81f5-11eb-8521-a25ee07d79f5.png)
 
 ```
 with:
-  status: We're all green!
+  title: We're all green!
   template: plain2
 ```
-A message with a link to the Github Action run and a custom title as the header.
-![a](https://user-images.githubusercontent.com/14797743/110732181-80472f80-81d8-11eb-8f4f-b659882800b7.png)
+A message with a link to the Github Action run and a custom title as the title.
+![](https://user-images.githubusercontent.com/14797743/110732181-80472f80-81d8-11eb-8f4f-b659882800b7.png)
