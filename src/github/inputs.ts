@@ -1,7 +1,8 @@
 import * as core from '@actions/core'
+import { IncomingWebhookDefaultArguments } from '@slack/webhook'
 import { Steps, TemplateIDs } from './index'
 
-export type InputOptions = {
+export type InputOptions = IncomingWebhookDefaultArguments & {
   template: TemplateIDs,
   status?: string,
   title?: string
@@ -19,6 +20,12 @@ export class Inputs {
   steps: Steps
   channel: string
 
+  username: string
+  icon_emoji: string
+  icon_url: string
+  text: string
+  link_names: boolean
+
   constructor() {
     this.template = core.getInput('template', { required: true })
     this.status = core.getInput('status')
@@ -26,5 +33,11 @@ export class Inputs {
     this.channel = core.getInput('channel')
     this.title = core.getInput('title')
     this.description = core.getInput('description')
+    this.username = core.getInput('username')
+    this.icon_emoji = core.getInput('icon_emoji')
+    this.icon_url = core.getInput('icon_url')
+    this.text = core.getInput('text')
+    const text: string = core.getInput('text')
+    this.link_names = text?.length ? Boolean(text) : false
   }
 }

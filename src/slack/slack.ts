@@ -11,13 +11,20 @@ export class Slack {
   constructor(webhookUrl: string, inputs: Inputs) {
     this.webhookUrl = webhookUrl
     this.webhookOptions = {
-      channel: inputs.channel || undefined
+      username: inputs.username || undefined,
+      icon_emoji: inputs.icon_emoji || undefined,
+      icon_url: inputs.icon_url || undefined,
+      channel: inputs.channel || undefined,
+      text: inputs.text || undefined,
+      link_names: inputs.link_names || undefined
     }
   }
 
   private updateDefaults(original: IncomingWebhookSendArguments): IncomingWebhookSendArguments {
-    // TODO:
-    return original
+    return {
+      ...this.webhookOptions,
+      ...original
+    }
   }
 
   async notify(message: IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {

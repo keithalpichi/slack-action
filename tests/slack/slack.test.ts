@@ -45,7 +45,7 @@ describe('Slack', () => {
       icon_emoji: 'abc.com/emoji.png',
       icon_url: 'abc.com/icon.png',
       text: 'this is fallback text',
-      link_names: 'true'
+      link_names: true
     }
     setInputEnvs(inputArgs as InputOptions)
     const inputs = new Inputs()
