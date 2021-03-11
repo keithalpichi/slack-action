@@ -26,6 +26,8 @@ The template ID that identifies the template to use for the Slack notification m
 - `plain1`- a template for plain messages that displays a custom message.
 - `plain2`- a template for plain messages that displays the link to the current Github Action run.
 
+See the [Templates](#templates) below for images and details of each template.
+
 #### Example usage
 ```
 with:
@@ -107,3 +109,37 @@ steps:
     status: ${{ job.status }}
     if: ${{ failure() }}
 ```
+
+## Templates
+
+### `plain1`
+A message with a text description and default header "Github Action"
+```
+with:
+  template: plain1
+  template_args: '{ "message": "We're all green!" }'
+```
+![a](https://user-images.githubusercontent.com/14797743/110732183-80472f80-81d8-11eb-96d3-a37404c09b33.png)
+
+### `plain2`
+```
+with:
+  template: plain2
+```
+A message with a link to the Github Action run and default header "Github Action"
+![a](https://user-images.githubusercontent.com/14797743/110732185-80dfc600-81d8-11eb-94ac-5eb238977993.png)
+```
+with:
+  status: ${{ job.status }}
+  template: plain2
+```
+A message with a link to the Github Action run and job status as the header.
+![a](https://user-images.githubusercontent.com/14797743/110732179-7fae9900-81d8-11eb-803f-285507a0aa62.png)
+
+```
+with:
+  status: We're all green!
+  template: plain2
+```
+A message with a link to the Github Action run and a custom title as the header.
+![a](https://user-images.githubusercontent.com/14797743/110732181-80472f80-81d8-11eb-8f4f-b659882800b7.png)
