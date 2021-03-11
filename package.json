@@ -9,7 +9,8 @@
     "test": "jest --verbose",
     "lint": "eslint src/**/*.ts tests/**/*.ts",
     "clean": "rm -rf ./lib/*",
-    "build": "npm run clean && npm run compile-ts && npm run lint && npm run compile && npm run test"
+    "build": "npm run clean && npm run compile-ts && npm run lint && npm run compile && npm run test",
+    "deploy": "npm run build && git add ./dist && git cm 'new build' && git push origin master"
   },
   "keywords": [],
   "author": "",
