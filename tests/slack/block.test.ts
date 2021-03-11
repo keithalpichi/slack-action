@@ -2,6 +2,7 @@ import {
   SectionBlock,
   HeaderBlock,
   DividerBlock,
+  FullSectionBlock
 } from '../../src/slack'
 
 describe('Block', () => {
@@ -31,5 +32,11 @@ describe('Block', () => {
     expect(b.type).toBe('section')
     expect(b.fields[0]).toEqual({ text: '# top', type: 'mrkdwn' })
     expect(b.fields[1]).toEqual({ text: '# bottom', type: 'mrkdwn' })
+  })
+
+  test('creates full section block', () => {
+    const b = new FullSectionBlock('# top')
+    expect(b.type).toBe('section')
+    expect(b.text).toEqual({ text: '# top', type: 'mrkdwn' })
   })
 })

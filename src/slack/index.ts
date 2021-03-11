@@ -1,15 +1,8 @@
-import { Slack } from './slack'
-import { Markdown } from './markdown'
-import {
+export { Slack } from './slack'
+export { Markdown } from './markdown'
+export {
   SectionBlock,
   HeaderBlock,
   DividerBlock,
+  FullSectionBlock
 } from './block'
-
-export {
-  Slack,
-  Markdown,
-  HeaderBlock,
-  SectionBlock,
-  DividerBlock
-}

@@ -27,7 +27,7 @@ export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements Git
       blocks: [
         this.header(),
         this.divider(),
-        this.section_block(this.inputs.template_args.message)
+        this.full_section_block(this.inputs.template_args.message)
       ]
     }
     return message
@@ -52,7 +52,7 @@ export class PlainTwo extends BaseGithubSlackAdapter<PlainInputs> implements Git
       blocks: [
         this.header(title),
         this.divider(),
-        this.section_block(link)
+        this.full_section_block(link)
       ]
     }
     return message

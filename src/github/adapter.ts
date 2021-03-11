@@ -1,5 +1,8 @@
 import { IncomingWebhookSendArguments } from '@slack/webhook'
-import { SectionBlock, HeaderBlock, DividerBlock, Markdown } from '../slack'
+import {
+  SectionBlock, HeaderBlock, DividerBlock,
+  Markdown, FullSectionBlock
+} from '../slack'
 import { Inputs } from './inputs'
 
 export type Status = 'success' | 'failure' | 'cancelled'
@@ -87,6 +90,10 @@ export class BaseGithubSlackAdapter<I extends Inputs> {
       default:
         return status
     }
+  }
+
+  protected full_section_block(text: string): FullSectionBlock {
+    return new FullSectionBlock(text)
   }
 
   protected section_block(text: string | string[]): SectionBlock {

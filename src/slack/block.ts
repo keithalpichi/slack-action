@@ -17,6 +17,17 @@ export class SectionBlock implements SB {
   }
 }
 
+export class FullSectionBlock implements SB {
+  public type: 'section' = 'section'
+  public text: MrkdwnElement
+  constructor(text: string) {
+    this.text = {
+      type: 'mrkdwn',
+      text
+    }
+  }
+}
+
 export class HeaderBlock implements HB {
   public type: 'header' = 'header'
   public text: PlainTextElement

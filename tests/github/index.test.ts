@@ -1,6 +1,6 @@
 import { Github, Inputs, PlainOne, PlainTwo } from '../../src/github'
 import { setInputEnvs, setActionEnvs } from '../fixtures'
-import { HeaderBlock, SectionBlock } from '../../src/slack'
+import { HeaderBlock, FullSectionBlock } from '../../src/slack'
 
 describe('Github', () => {
   beforeEach(() => {
@@ -28,7 +28,7 @@ describe('Github', () => {
     const header = result.blocks[0]
     expect((header as HeaderBlock).text.text).toBe('Github Action')
     expect(result.blocks[1].type).toBe('divider')
-    expect((result.blocks[2] as SectionBlock).fields[0].text)
+    expect((result.blocks[2] as FullSectionBlock).text.text)
       .toBe('this is a plain message')
   })
 
@@ -43,7 +43,7 @@ describe('Github', () => {
     const header = result.blocks[0]
     expect((header as HeaderBlock).text.text).toBe('Github Action')
     expect(result.blocks[1].type).toBe('divider')
-    expect((result.blocks[2] as SectionBlock).fields[0].text)
+    expect((result.blocks[2] as FullSectionBlock).text.text)
       .toBe(
         '<https://github.com/user/repo/actions/runs/1|' +
         'https://github.com/user/repo/actions/runs/1>'
@@ -62,7 +62,7 @@ describe('Github', () => {
     const header = result.blocks[0]
     expect((header as HeaderBlock).text.text).toBe('Success')
     expect(result.blocks[1].type).toBe('divider')
-    expect((result.blocks[2] as SectionBlock).fields[0].text)
+    expect((result.blocks[2] as FullSectionBlock).text.text)
       .toBe(
         '<https://github.com/user/repo/actions/runs/1|' +
         'https://github.com/user/repo/actions/runs/1>'
