@@ -27,7 +27,7 @@ export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements Git
       blocks: [
         this.header(),
         this.divider(),
-        this.section_block([this.inputs.template_args.message])
+        this.section_block(this.inputs.template_args.message)
       ]
     }
     return message
@@ -47,11 +47,12 @@ export class PlainTwo extends BaseGithubSlackAdapter<PlainInputs> implements Git
       default:
         break
     }
+    const link = this.link(this.workflowUrl, this.workflowUrl)
     const message: IncomingWebhookSendArguments = {
       blocks: [
         this.header(title),
         this.divider(),
-        this.eventSummary(this.workflowUrl)
+        this.section_block(link)
       ]
     }
     return message

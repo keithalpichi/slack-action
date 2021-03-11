@@ -89,16 +89,15 @@ export class BaseGithubSlackAdapter<I extends Inputs> {
     }
   }
 
-  protected section_block(text: string[]): SectionBlock {
+  protected section_block(text: string | string[]): SectionBlock {
+    if (typeof (text) == 'string') {
+      text = [text]
+    }
     return new SectionBlock(text)
   }
 
-  protected summary(summary: string): string {
-    return Markdown.link(this.workflowUrl, summary)
-  }
-
-  protected eventSummary(summary: string): SectionBlock {
-    return new SectionBlock([this.summary(summary)])
+  protected link(url: string, text: string): string {
+    return Markdown.link(url, text)
   }
 
   protected stepsSection(): SectionBlock | undefined {
