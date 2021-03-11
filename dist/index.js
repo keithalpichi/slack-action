@@ -327,7 +327,7 @@ var Push = /** @class */ (function () {
     }
     Push.build = function (inputs) {
         switch (inputs.template) {
-            case '1':
+            case 'push1':
                 return new PushOne(inputs);
             default:
                 return undefined;
