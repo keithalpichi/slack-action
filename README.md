@@ -1,13 +1,22 @@
 # Slack
 
-A Github Action that sends Slack notifications from within Github Action workflows.
+A highly-configurable Github Action that sends Slack notifications from within Github Action workflows.
 
-## Configuration
+## Usage
 
-1. Create a [Incoming Webhook](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) in your Slack workspace. Copy the webhook URL, you'll need it in the next step.
+1. Create an [Incoming Webhook](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) in your Slack workspace. Copy the webhook URL, you'll need it in the next step.
 1. Create a [Github secret](https://docs.github.com/en/actions/reference/encrypted-secrets) in the settings tab in a repository, or organization if you want it to be used across all repositories within an organization. Give it the name "SLACK_WEBHOOK_URL" and value as the webhook URL.
-1. Create a Github Action yaml file if you don't already have one at `./.github/workflows`
-1. Add the desired inputs below to your workflow yaml files.
+1. Add "SLACK_WEBHOOK_URL" as an [`env`](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#env) to every workflow file you want to use this action in.
+    ```
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    ```
+1. Add this action as a step:
+    ```
+    - name: Send Slack Notification
+      uses: keithalpichi/slack
+    ```
+1. Add your desired inputs from the input section below to the step.
 
 ## Github Action Inputs
 
@@ -30,8 +39,10 @@ See the [Templates](#templates) below for images and details of each template.
 
 #### Example usage
 ```
-with:
-  template: plain1
+- name: Send Slack Notification
+  uses: keithalpichi/slack
+  with:
+    template: plain1
 ```
 
 ### `template_args`
@@ -41,9 +52,11 @@ The template arguments to provide to the template as a JSON string. The argument
 
 #### Example usage
 ```
-with:
-  template: plain1
-  template_args: ${{ toJson({ message: 'Everything looks good!' }) }}
+- name: Send Slack Notification
+  uses: keithalpichi/slack
+  with:
+    template: plain1
+    template_args: ${{ toJson({ message: 'Everything looks good!' }) }}
 ```
 
 
@@ -55,15 +68,19 @@ The current status of the job to use within the template. Usage of this input de
 #### Example usage
 Using the `job.status` context:
 ```
-with:
-  status: ${{ job.status }}
-  template: plain2
+- name: Send Slack Notification
+  uses: keithalpichi/slack
+  with:
+    status: ${{ job.status }}
+    template: plain2
 ```
 Providing a custom status:
 ```
-with:
-  status: all green
-  template: plain2
+- name: Send Slack Notification
+  uses: keithalpichi/slack
+  with:
+    status: all green
+    template: plain2
 ```
 
 ### `channel`
@@ -76,12 +93,18 @@ The channel or user to send the Slack message to.
 
 #### Example usage
 ```
-with:
-  channel: #cicd
+- name: Send Slack Notification
+  uses: keithalpichi/slack
+  with:
+    template: plain1
+    channel: #cicd
 ```
 ```
-with:
-  channel: @octocat
+- name: Send Slack Notification
+  uses: keithalpichi/slack
+  with:
+    template: plain1
+    channel: @octocat
 ```
 
 ## Examples
