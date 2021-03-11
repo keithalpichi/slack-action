@@ -3,11 +3,11 @@ import { setInputEnvs, setActionEnvs } from '../../fixtures'
 import { HeaderBlock, SectionBlock } from '../../../src/slack'
 
 describe('Push', () => {
-  test('creates a slack message with template 1', () => {
+  test('creates a slack message with template push1', () => {
     setActionEnvs()
     setInputEnvs({
       status: 'success',
-      template: '1'
+      template: 'push1'
     })
     const inputs = new Inputs()
     const push = Push.build(inputs)

@@ -9,7 +9,7 @@ describe('PushOne', () => {
 
   test('creates a slack message with succeeded status', () => {
     setInputEnvs({
-      template: '1',
+      template: 'push1',
       status: 'success'
     })
     const inputs = new Inputs()
@@ -27,7 +27,7 @@ describe('PushOne', () => {
 
   test('creates a slack message with failure status', () => {
     setInputEnvs({
-      template: '1',
+      template: 'push1',
       status: 'failure'
     })
     const inputs = new Inputs()
@@ -45,7 +45,7 @@ describe('PushOne', () => {
 
   test('creates a slack message with cancelled status', () => {
     setInputEnvs({
-      template: '1',
+      template: 'push1',
       status: 'cancelled'
     })
     const inputs = new Inputs()
@@ -63,7 +63,7 @@ describe('PushOne', () => {
 
   test('creates a slack message with skipped status', () => {
     setInputEnvs({
-      template: '1',
+      template: 'push1',
       status: 'skipped'
     })
     const inputs = new Inputs()

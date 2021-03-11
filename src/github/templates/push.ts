@@ -5,7 +5,7 @@ import { Inputs } from '../inputs'
 export class Push {
   static build(inputs: Inputs): GithubSlackAdapter | undefined {
     switch (inputs.template) {
-      case '1':
+      case 'push1':
         return new PushOne(inputs)
       default:
         return undefined
