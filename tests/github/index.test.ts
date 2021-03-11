@@ -37,6 +37,20 @@ describe('Github', () => {
       os.EOL)
   })
 
+  test('should build template to custom channel', () => {
+    setInputEnvs({
+      template: 'plain1',
+      description: "this is a plain message",
+      channel: '#pets'
+    })
+    const inputs = new Inputs()
+    const event = Github.build('push', inputs)
+    expect(event instanceof PlainOne).toBeTruthy()
+    expect((event as PlainOne).inputValidated).toBeTruthy()
+    const result = event.createSlackMessage()
+    const header = result.channel = '#pets'
+  })
+
   test('should build plain1 template', () => {
     setInputEnvs({
       template: 'plain1',
