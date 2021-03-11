@@ -156,6 +156,7 @@ steps:
 A message with a text description and default title. This template uses the following inputs:
 - description (required)- the description in the message
 - title - if provided overrides the default title "Github Action" 
+- channel- if provided overrides the default channel assigned to the Slack Incoming Webhook
 ```
 with:
   template: plain1
@@ -166,6 +167,7 @@ with:
 ### `plain2`
 A message with a link to the Github Action run and default title. This template uses the following inputs:
 - title - if provided overrides the default title "Github Action" 
+- channel- if provided overrides the default channel assigned to the Slack Incoming Webhook
 ```
 with:
   template: plain2
