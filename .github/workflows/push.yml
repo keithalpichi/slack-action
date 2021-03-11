@@ -16,11 +16,21 @@ jobs:
       - uses: ./
         with:
           template: plain1
-          message: Everything looks good!
+          description: Description only
+      - uses: ./
+        with:
+          template: plain1
+          description: Description
+          title: Title with
+      - uses: ./
+        with:
+          template: plain1
+          description: Override the default channel
+          channel: '#projects'
       - uses: ./
         with:
           template: plain2
       - uses: ./
         with:
           template: plain2
-          status: ${{ job.status }}
+          title: ${{ job.status }}
