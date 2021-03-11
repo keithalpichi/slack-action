@@ -75,13 +75,13 @@ var BaseGithubSlackAdapter = /** @class */ (function () {
         }
     };
     BaseGithubSlackAdapter.prototype.section_block = function (text) {
+        if (typeof (text) == 'string') {
+            text = [text];
+        }
         return new slack_1.SectionBlock(text);
     };
-    BaseGithubSlackAdapter.prototype.summary = function (summary) {
-        return slack_1.Markdown.link(this.workflowUrl, summary);
-    };
-    BaseGithubSlackAdapter.prototype.eventSummary = function (summary) {
-        return new slack_1.SectionBlock([this.summary(summary)]);
+    BaseGithubSlackAdapter.prototype.link = function (url, text) {
+        return slack_1.Markdown.link(url, text);
     };
     BaseGithubSlackAdapter.prototype.stepsSection = function () {
         if (!Object.keys(this.inputs.steps)) {
@@ -104,7 +104,7 @@ var BaseGithubSlackAdapter = /** @class */ (function () {
         return slack_1.DividerBlock;
     };
     BaseGithubSlackAdapter.prototype.header = function (text) {
-        if (text === void 0) { text = 'Github Action'; }
+        text = text || 'Github Action';
         return new slack_1.HeaderBlock(text);
     };
     return BaseGithubSlackAdapter;
@@ -131,15 +131,10 @@ var Github = /** @class */ (function () {
         }
         switch (inputs.template) {
             case 'plain1':
+            case 'plain2':
                 return templates_1.Plain.build(inputs);
             default:
                 break;
-        }
-        switch (eventName) {
-            case 'push':
-                return templates_1.Push.build(inputs);
-            default:
-                return undefined;
         }
     };
     Github.supportedEvents = new Set([
@@ -236,24 +231,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PlainOne = exports.Plain = void 0;
-var plain_1 = __nccwpck_require__(5770);
-Object.defineProperty(exports, "PlainOne", ({ enumerable: true, get: function () { return plain_1.PlainOne; } }));
-var Plain = /** @class */ (function () {
-    function Plain() {
-    }
-    Plain.build = function (inputs) {
-        switch (inputs.template) {
-            case 'plain1':
-                return new plain_1.PlainOne(inputs);
-            default:
-                return undefined;
-        }
-    };
-    return Plain;
-}());
-exports.Plain = Plain;
-__exportStar(__nccwpck_require__(9694), exports);
+__exportStar(__nccwpck_require__(5770), exports);
 
 
 /***/ }),
@@ -277,8 +255,24 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PlainOne = void 0;
+exports.PlainTwo = exports.PlainOne = exports.Plain = void 0;
 var adapter_1 = __nccwpck_require__(8026);
+var Plain = /** @class */ (function () {
+    function Plain() {
+    }
+    Plain.build = function (inputs) {
+        switch (inputs.template) {
+            case 'plain1':
+                return new PlainOne(inputs);
+            case 'plain2':
+                return new PlainTwo(inputs);
+            default:
+                return undefined;
+        }
+    };
+    return Plain;
+}());
+exports.Plain = Plain;
 var PlainOne = /** @class */ (function (_super) {
     __extends(PlainOne, _super);
     function PlainOne() {
@@ -287,9 +281,9 @@ var PlainOne = /** @class */ (function (_super) {
     PlainOne.prototype.createSlackMessage = function () {
         var message = {
             blocks: [
-                this.header('Github Action'),
+                this.header(),
                 this.divider(),
-                this.section_block([this.inputs.template_args.message])
+                this.section_block(this.inputs.template_args.message)
             ]
         };
         return message;
@@ -297,52 +291,12 @@ var PlainOne = /** @class */ (function (_super) {
     return PlainOne;
 }(adapter_1.BaseGithubSlackAdapter));
 exports.PlainOne = PlainOne;
-
-
-/***/ }),
-
-/***/ 9694:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.PushOne = exports.Push = void 0;
-var adapter_1 = __nccwpck_require__(8026);
-var Push = /** @class */ (function () {
-    function Push() {
-    }
-    Push.build = function (inputs) {
-        switch (inputs.template) {
-            case 'push1':
-                return new PushOne(inputs);
-            default:
-                return undefined;
-        }
-    };
-    return Push;
-}());
-exports.Push = Push;
-var PushOne = /** @class */ (function (_super) {
-    __extends(PushOne, _super);
-    function PushOne() {
+var PlainTwo = /** @class */ (function (_super) {
+    __extends(PlainTwo, _super);
+    function PlainTwo() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    PushOne.prototype.createSlackMessage = function () {
-        var _a;
+    PlainTwo.prototype.createSlackMessage = function () {
         var title = this.inputs.status;
         switch (this.inputs.status) {
             case 'success':
@@ -354,23 +308,19 @@ var PushOne = /** @class */ (function (_super) {
             default:
                 break;
         }
+        var link = this.link(this.workflowUrl, this.workflowUrl);
         var message = {
             blocks: [
                 this.header(title),
                 this.divider(),
-                // repo/branch/runId status elapsed_time (M:S) <github action URL link>
-                this.eventSummary(this.workflowUrl)
+                this.section_block(link)
             ]
         };
-        var stepsSection = this.stepsSection();
-        if (stepsSection) {
-            (_a = message.blocks) === null || _a === void 0 ? void 0 : _a.push(stepsSection);
-        }
         return message;
     };
-    return PushOne;
+    return PlainTwo;
 }(adapter_1.BaseGithubSlackAdapter));
-exports.PushOne = PushOne;
+exports.PlainTwo = PlainTwo;
 
 
 /***/ }),
