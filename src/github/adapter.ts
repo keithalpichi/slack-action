@@ -124,7 +124,8 @@ export class BaseGithubSlackAdapter {
     return DividerBlock
   }
 
-  protected header(text = 'Github Action'): HeaderBlock {
+  protected header(text?: string): HeaderBlock {
+    text = text || 'Github Action'
     return new HeaderBlock(text)
   }
 
