@@ -4,4 +4,4 @@ export {
 } from './adapter'
 export * from './templates'
 export { Github } from './github'
-export { Inputs } from './inputs'
+export * from './inputs'

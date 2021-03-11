@@ -1,5 +1,15 @@
 import * as core from '@actions/core'
-import { Steps } from '../github'
+import { Steps, TemplateIDs } from './index'
+
+export type InputOptions = {
+  template: TemplateIDs,
+  status?: string,
+  title?: string
+  channel?: string,
+  steps?: string
+  description?: string
+}
+
 
 export class Inputs {
   template: string

@@ -1,5 +1,5 @@
-import { Inputs } from '../../src/github'
-import { githubActionInputEnvs, setInputEnvs, unsetInputEnvs } from '../fixtures'
+import { Inputs, InputOptions } from '../../src/github'
+import { setInputEnvs, unsetInputEnvs } from '../fixtures'
 
 describe('Inputs', () => {
   afterEach(() => {
@@ -11,16 +11,24 @@ describe('Inputs', () => {
       template: 'plain1'
     })
     const i = new Inputs()
-    expect(i.template).toBe(githubActionInputEnvs.template)
+    expect(i.template).toBe('plain1')
   })
 
   test('optional inputs provided to Github Action', () => {
-    setInputEnvs(githubActionInputEnvs)
+    const inputArgs: InputOptions = {
+      template: 'plain1',
+      title: '',
+      description: '',
+      status: 'success',
+      channel: '#cicd',
+      steps: '{ "Lint": {"outcome": "success"} }'
+    }
+    setInputEnvs(inputArgs)
     const i = new Inputs()
-    expect(i.title).toBe(githubActionInputEnvs.title)
-    expect(i.description).toBe(githubActionInputEnvs.description)
-    expect(i.status).toBe(githubActionInputEnvs.status)
-    expect(i.channel).toBe(githubActionInputEnvs.channel)
-    expect(i.steps).toEqual(JSON.parse(githubActionInputEnvs.steps))
+    expect(i.title).toBe(inputArgs.title)
+    expect(i.description).toBe(inputArgs.description)
+    expect(i.status).toBe(inputArgs.status)
+    expect(i.channel).toBe(inputArgs.channel)
+    expect(i.steps).toEqual(JSON.parse(inputArgs.steps))
   })
 })

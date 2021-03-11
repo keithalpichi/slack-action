@@ -1,16 +1,7 @@
-import { PlainTemplateIDs } from '../../src/github'
-
-type InputEnvs = {
-  template: PlainTemplateIDs,
-  status?: string,
-  title?: string
-  channel?: string,
-  steps?: string
-  description?: string
-}
+import { InputOptions } from '../../src/github'
 
 type Envs = { [key: string]: string }
-type InputEnvKeys = keyof InputEnvs;
+type InputEnvKeys = keyof InputOptions;
 
 function createActionInput(input: string): string {
   return `INPUT_${input.toUpperCase()}`
@@ -34,16 +25,21 @@ export function unsetProcessEnvs(inputs: InputEnvKeys[]): void {
   }
 }
 
-export const githubActionInputEnvs: InputEnvs = {
-  template: 'plain1',
-  title: '',
-  description: '',
-  status: 'success',
-  channel: '#cicd',
-  steps: '{ "Lint": {"outcome": "success"} }'
-}
+export const inputOptions: InputEnvKeys[] = [
+  'template',
+  'title',
+  'description',
+  'status',
+  'channel',
+  'steps',
+  'username',
+  'icon_emoji',
+  'icon_url',
+  'text',
+  'link_names'
+]
 
-export function setInputEnvs(inputs: InputEnvs): void {
+export function setInputEnvs(inputs: InputOptions): void {
   inputs = { ...inputs }
   for (const key in inputs) {
     if (inputs[key] === undefined) {
@@ -58,7 +54,7 @@ export function setInputEnvs(inputs: InputEnvs): void {
 
 export function unsetInputEnvs(inputs?: InputEnvKeys[]): void {
   if (!inputs || !inputs.length) {
-    inputs = Object.keys(githubActionInputEnvs).map(k => k) as InputEnvKeys[]
+    inputs = inputOptions
   }
   unsetProcessEnvs(inputs.map(i => createActionInput(i) as InputEnvKeys))
 }
