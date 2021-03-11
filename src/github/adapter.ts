@@ -17,9 +17,11 @@ export type Steps = Record<string, Step>
 export interface GithubSlackAdapter {
   // https://api.slack.com/methods/chat.postMessage
   createSlackMessage: () => IncomingWebhookSendArguments
+  validateInput: () => GithubSlackAdapter
 }
 
 export class BaseGithubSlackAdapter<I extends Inputs> {
+  inputValidated: boolean
   inputs: I
   jobName: string
   eventName: string
@@ -35,6 +37,7 @@ export class BaseGithubSlackAdapter<I extends Inputs> {
   actor: string
 
   constructor(inputs: I) {
+    this.inputValidated = false
     this.inputs = inputs
     this.jobName = process.env.GITHUB_JOB || ''
     this.eventName = process.env.GITHUB_EVENT_NAME || ''

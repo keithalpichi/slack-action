@@ -1,3 +1,4 @@
+import * as os from 'os'
 import { Github, Inputs, PlainOne, PlainTwo } from '../../src/github'
 import { setInputEnvs, setActionEnvs, unsetInputEnvs } from '../fixtures'
 import { HeaderBlock, FullSectionBlock } from '../../src/slack'
@@ -20,6 +21,22 @@ describe('Github', () => {
     expect(event).toBeUndefined
   })
 
+  test('should not build plain1 template when description is undefined', () => {
+    process.stdout.write = jest.fn()
+    setInputEnvs({
+      template: 'plain1',
+    })
+    const inputs = new Inputs()
+    Github.build('push', inputs)
+    expect(process.exitCode).toBe(1)
+    expect(process.stdout.write).toHaveBeenNthCalledWith(1,
+      '::error::' +
+      'Invalid "description" input provided ' +
+      'template "plain1". Please ensure it is a' +
+      'non-empty string.' +
+      os.EOL)
+  })
+
   test('should build plain1 template', () => {
     setInputEnvs({
       template: 'plain1',
@@ -28,6 +45,7 @@ describe('Github', () => {
     const inputs = new Inputs()
     const event = Github.build('push', inputs)
     expect(event instanceof PlainOne).toBeTruthy()
+    expect((event as PlainOne).inputValidated).toBeTruthy()
     const result = event.createSlackMessage()
     const header = result.blocks[0]
     expect((header as HeaderBlock).text.text).toBe('Github Action')
@@ -60,6 +78,7 @@ describe('Github', () => {
     const inputs = new Inputs()
     const event = Github.build('push', inputs)
     expect(event instanceof PlainTwo).toBeTruthy()
+    expect((event as PlainTwo).inputValidated).toBeTruthy()
     const result = event.createSlackMessage()
     const header = result.blocks[0]
     expect((header as HeaderBlock).text.text).toBe('Github Action')

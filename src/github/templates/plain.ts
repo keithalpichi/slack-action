@@ -1,6 +1,7 @@
 import { GithubSlackAdapter, BaseGithubSlackAdapter } from '../adapter'
 import { IncomingWebhookSendArguments } from '@slack/webhook'
 import { Inputs } from '../inputs'
+import * as core from '@actions/core'
 
 export type PlainTemplateIDs = 'plain1' | 'plain2'
 
@@ -22,6 +23,18 @@ export class Plain {
 }
 
 export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements GithubSlackAdapter {
+  validateInput(): GithubSlackAdapter {
+    if (!this.inputs.description || !this.inputs.description.length) {
+      core.setFailed(
+        'Invalid "description" input provided ' +
+        'template "plain1". Please ensure it is a' +
+        'non-empty string.'
+      )
+    }
+    this.inputValidated = true
+    return this
+  }
+
   createSlackMessage(): IncomingWebhookSendArguments {
     const message: IncomingWebhookSendArguments = {
       blocks: [
@@ -35,6 +48,11 @@ export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements Git
 }
 
 export class PlainTwo extends BaseGithubSlackAdapter<PlainInputs> implements GithubSlackAdapter {
+  validateInput(): GithubSlackAdapter {
+    this.inputValidated = true
+    return this
+  }
+
   createSlackMessage(): IncomingWebhookSendArguments {
     const link = this.link(this.workflowUrl, this.workflowUrl)
     const message: IncomingWebhookSendArguments = {
