@@ -21,4 +21,4 @@ runs:
   main: 'dist/index.js'
 branding:
   icon: mail
-  color: red
+  color: orange
