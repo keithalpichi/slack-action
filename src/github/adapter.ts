@@ -16,8 +16,8 @@ export interface GithubSlackAdapter {
   createSlackMessage: () => IncomingWebhookSendArguments
 }
 
-export class BaseGithubSlackAdapter {
-  inputs: Inputs
+export class BaseGithubSlackAdapter<I extends Inputs> {
+  inputs: I
   jobName: string
   eventName: string
   workflow: string
@@ -31,7 +31,7 @@ export class BaseGithubSlackAdapter {
   branch: string
   actor: string
 
-  constructor(inputs: Inputs) {
+  constructor(inputs: I) {
     this.inputs = inputs
     this.jobName = process.env.GITHUB_JOB || ''
     this.eventName = process.env.GITHUB_EVENT_NAME || ''

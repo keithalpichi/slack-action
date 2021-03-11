@@ -2,8 +2,14 @@ import { GithubSlackAdapter, BaseGithubSlackAdapter } from '../adapter'
 import { IncomingWebhookSendArguments } from '@slack/webhook'
 import { Inputs } from '../inputs'
 
+export type PlainTemplateIDs = 'plain1' | 'plain2'
+
+export type PlainInputs = Inputs & {
+  template: PlainTemplateIDs
+}
+
 export class Plain {
-  static build(inputs: Inputs): GithubSlackAdapter | undefined {
+  static build(inputs: PlainInputs): GithubSlackAdapter | undefined {
     switch (inputs.template) {
       case 'plain1':
         return new PlainOne(inputs)
@@ -15,7 +21,7 @@ export class Plain {
   }
 }
 
-export class PlainOne extends BaseGithubSlackAdapter implements GithubSlackAdapter {
+export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements GithubSlackAdapter {
   createSlackMessage(): IncomingWebhookSendArguments {
     const message: IncomingWebhookSendArguments = {
       blocks: [
@@ -28,7 +34,7 @@ export class PlainOne extends BaseGithubSlackAdapter implements GithubSlackAdapt
   }
 }
 
-export class PlainTwo extends BaseGithubSlackAdapter implements GithubSlackAdapter {
+export class PlainTwo extends BaseGithubSlackAdapter<PlainInputs> implements GithubSlackAdapter {
   createSlackMessage(): IncomingWebhookSendArguments {
     let title = this.inputs.status
     switch (this.inputs.status) {

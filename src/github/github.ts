@@ -3,7 +3,7 @@ import {
   GithubSlackAdapter,
 } from './adapter'
 import { Inputs } from './inputs'
-import { Plain } from './templates'
+import { Plain, PlainInputs } from './templates'
 
 export class Github {
   static supportedEvents = new Set([
@@ -16,7 +16,7 @@ export class Github {
     switch (inputs.template) {
       case 'plain1':
       case 'plain2':
-        return Plain.build(inputs)
+        return Plain.build(inputs as PlainInputs)
       default:
         break
     }

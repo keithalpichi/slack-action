@@ -1,3 +1,5 @@
+import { PlainTemplateIDs } from '../../src/github'
+
 type Envs = { [key: string]: string }
 
 export function setProcessEnvs(envs: Envs, allow_undefined?: boolean): void {
@@ -10,7 +12,15 @@ export function setProcessEnvs(envs: Envs, allow_undefined?: boolean): void {
 
 }
 
-export const githubActionInputEnvs = {
+type InputEnvs = {
+  template: PlainTemplateIDs,
+  template_args?: string,
+  status?: string,
+  channel?: string,
+  steps?: string
+}
+
+export const githubActionInputEnvs: InputEnvs = {
   template: 'plain1',
   template_args: '{}',
   status: 'success',
@@ -18,7 +28,7 @@ export const githubActionInputEnvs = {
   steps: '{ "Lint": {"outcome": "success"} }'
 }
 
-export function setInputEnvs(inputs: Envs) {
+export function setInputEnvs(inputs: InputEnvs) {
   inputs = { ...inputs }
   for (const key in inputs) {
     if (inputs[key] === undefined) {
