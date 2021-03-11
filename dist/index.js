@@ -74,6 +74,9 @@ var BaseGithubSlackAdapter = /** @class */ (function () {
                 return status;
         }
     };
+    BaseGithubSlackAdapter.prototype.full_section_block = function (text) {
+        return new slack_1.FullSectionBlock(text);
+    };
     BaseGithubSlackAdapter.prototype.section_block = function (text) {
         if (typeof (text) == 'string') {
             text = [text];
@@ -283,7 +286,7 @@ var PlainOne = /** @class */ (function (_super) {
             blocks: [
                 this.header(),
                 this.divider(),
-                this.section_block(this.inputs.template_args.message)
+                this.full_section_block(this.inputs.template_args.message)
             ]
         };
         return message;
@@ -313,7 +316,7 @@ var PlainTwo = /** @class */ (function (_super) {
             blocks: [
                 this.header(title),
                 this.divider(),
-                this.section_block(link)
+                this.full_section_block(link)
             ]
         };
         return message;
@@ -453,7 +456,7 @@ exports.run = run;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.DividerBlock = exports.HeaderBlock = exports.SectionBlock = void 0;
+exports.DividerBlock = exports.HeaderBlock = exports.FullSectionBlock = exports.SectionBlock = void 0;
 var SectionBlock = /** @class */ (function () {
     function SectionBlock(text) {
         this.type = 'section';
@@ -465,6 +468,17 @@ var SectionBlock = /** @class */ (function () {
     return SectionBlock;
 }());
 exports.SectionBlock = SectionBlock;
+var FullSectionBlock = /** @class */ (function () {
+    function FullSectionBlock(text) {
+        this.type = 'section';
+        this.text = {
+            type: 'mrkdwn',
+            text: text
+        };
+    }
+    return FullSectionBlock;
+}());
+exports.FullSectionBlock = FullSectionBlock;
 var HeaderBlock = /** @class */ (function () {
     function HeaderBlock(text) {
         this.type = 'header';
@@ -494,7 +508,7 @@ exports.DividerBlock = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.DividerBlock = exports.SectionBlock = exports.HeaderBlock = exports.Markdown = exports.Slack = void 0;
+exports.FullSectionBlock = exports.DividerBlock = exports.HeaderBlock = exports.SectionBlock = exports.Markdown = exports.Slack = void 0;
 var slack_1 = __nccwpck_require__(9146);
 Object.defineProperty(exports, "Slack", ({ enumerable: true, get: function () { return slack_1.Slack; } }));
 var markdown_1 = __nccwpck_require__(1719);
@@ -503,6 +517,7 @@ var block_1 = __nccwpck_require__(4923);
 Object.defineProperty(exports, "SectionBlock", ({ enumerable: true, get: function () { return block_1.SectionBlock; } }));
 Object.defineProperty(exports, "HeaderBlock", ({ enumerable: true, get: function () { return block_1.HeaderBlock; } }));
 Object.defineProperty(exports, "DividerBlock", ({ enumerable: true, get: function () { return block_1.DividerBlock; } }));
+Object.defineProperty(exports, "FullSectionBlock", ({ enumerable: true, get: function () { return block_1.FullSectionBlock; } }));
 
 
 /***/ }),
