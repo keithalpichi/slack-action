@@ -17,3 +17,7 @@ jobs:
         with:
           template: plain1
           template_args: '{ "message": "Everything looks good!" }'
+      - uses: ./
+        with:
+          template: push1
+          status: ${{ job.status }}
