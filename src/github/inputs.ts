@@ -5,9 +5,9 @@ export class Inputs {
   template: string
   status: string
   title: string
+  description: string
   steps: Steps
   channel: string
-  template_args: any
 
   constructor() {
     this.template = core.getInput('template', { required: true })
@@ -15,6 +15,6 @@ export class Inputs {
     this.steps = JSON.parse(core.getInput('steps') || '{}') as Steps
     this.channel = core.getInput('channel')
     this.title = core.getInput('title')
-    this.template_args = JSON.parse(core.getInput('template_args') || '{}')
+    this.description = core.getInput('description')
   }
 }

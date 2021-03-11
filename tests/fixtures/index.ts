@@ -2,11 +2,11 @@ import { PlainTemplateIDs } from '../../src/github'
 
 type InputEnvs = {
   template: PlainTemplateIDs,
-  template_args?: string,
   status?: string,
   title?: string
   channel?: string,
   steps?: string
+  description?: string
 }
 
 type Envs = { [key: string]: string }
@@ -36,8 +36,8 @@ export function unsetProcessEnvs(inputs: InputEnvKeys[]): void {
 
 export const githubActionInputEnvs: InputEnvs = {
   template: 'plain1',
-  template_args: '{}',
   title: '',
+  description: '',
   status: 'success',
   channel: '#cicd',
   steps: '{ "Lint": {"outcome": "success"} }'

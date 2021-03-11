@@ -23,7 +23,7 @@ A highly-configurable Github Action that sends Slack notifications from within G
 The following inputs can be provided within the `with` key in a `step`.
 
 - [`template` (required)](#template)
-- [`template_args`](#template_args)
+- [`title`](#title)
 - [`status`](#status)
 - [`channel`](#channel)
 
@@ -44,11 +44,15 @@ See the [Templates](#templates) below for images and details of each template.
   with:
     template: plain1
 ```
-
-### `template_args`
+### `title`
 **`string`**
 
-The template arguments to provide to the template as a JSON string. The arguments depend on the template ID provided to `template`.
+The title to display on the Slack notification message.
+
+### `description`
+**`string`**
+
+The description to display on the Slack notification message.
 
 #### Example usage
 ```
@@ -56,7 +60,7 @@ The template arguments to provide to the template as a JSON string. The argument
   uses: keithalpichi/slack
   with:
     template: plain1
-    template_args: ${{ toJson({ message: 'Everything looks good!' }) }}
+    description: Everything looks good!
 ```
 
 
@@ -140,7 +144,7 @@ A message with a text description and default header "Github Action"
 ```
 with:
   template: plain1
-  template_args: '{ "message": "We're all green!" }'
+  description: We're all green!
 ```
 ![a](https://user-images.githubusercontent.com/14797743/110732183-80472f80-81d8-11eb-96d3-a37404c09b33.png)
 

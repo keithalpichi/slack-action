@@ -14,7 +14,7 @@ describe('Plain', () => {
   test('creates a message with plain1 template', () => {
     setInputEnvs({
       template: 'plain1',
-      template_args: '{"message": "this is a plain message"}'
+      description: "this is a plain message"
     })
     const inputs = new Inputs()
     const plain = Plain.build(inputs as PlainInputs)
@@ -28,7 +28,7 @@ describe('Plain', () => {
   test('creates a message with plain1 template and title', () => {
     setInputEnvs({
       template: 'plain1',
-      template_args: '{"message": "this is a plain message"}',
+      description: "this is a plain message",
       title: 'this is a plain title'
     })
     const inputs = new Inputs()

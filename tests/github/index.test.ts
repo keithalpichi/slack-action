@@ -23,7 +23,7 @@ describe('Github', () => {
   test('should build plain1 template', () => {
     setInputEnvs({
       template: 'plain1',
-      template_args: '{"message": "this is a plain message"}'
+      description: "this is a plain message"
     })
     const inputs = new Inputs()
     const event = Github.build('push', inputs)
@@ -39,7 +39,7 @@ describe('Github', () => {
   test('should build plain1 template with custom title', () => {
     setInputEnvs({
       template: 'plain1',
-      template_args: '{"message": "this is a plain message"}',
+      description: "this is a plain message",
       title: 'this is a plain title'
     })
     const inputs = new Inputs()

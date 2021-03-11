@@ -27,7 +27,7 @@ export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements Git
       blocks: [
         this.header(this.inputs.title),
         this.divider(),
-        this.full_section_block(this.inputs.template_args.message)
+        this.full_section_block(this.inputs.description)
       ]
     }
     return message
