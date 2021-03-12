@@ -2,6 +2,8 @@
 
 A Github Action that sends custom Slack notifications by use of templates.
 
+![](https://github.com/keithalpichi/slack-action/actions/workflows/test.yml/badge.svg)
+
 ## Configuration
 
 1. Create an [Incoming Webhook](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) in your Slack workspace. Copy the webhook URL, you'll need it in the next step.
