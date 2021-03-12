@@ -3,6 +3,11 @@ import { run } from '../src/run'
 import { setInputEnvs } from './fixtures'
 
 describe('Main', () => {
+  afterEach(() => {
+    delete process.env.SLACK_WEBHOOK_URL
+    delete process.env.GITHUB_EVENT_NAME
+  })
+
   test('skips action & logs warning when process.env.SLACK_WEBHOOK_URL is undefined', async () => {
     process.stdout.write = jest.fn()
     expect(await run()).toBeUndefined
