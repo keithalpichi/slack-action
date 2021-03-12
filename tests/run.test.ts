@@ -21,6 +21,15 @@ describe('Main', () => {
       os.EOL)
   })
 
+  test('sets job to failed when required inputs are not provided', async () => {
+    // TODO: Need a better way to test actual output of stdout
+    process.stdout.write = jest.fn()
+    process.env.SLACK_WEBHOOK_URL = '1234abcd'
+    expect(await run()).toBeUndefined
+    expect(process.exitCode).toBe(1)
+    expect(process.stdout.write).toHaveBeenCalled()
+  })
+
   test('skips action & logs warning when process.env.GITHUB_EVENT_NAME is not supported', async () => {
     setInputEnvs({
       template: 'plain1'
