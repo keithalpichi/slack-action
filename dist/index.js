@@ -129,22 +129,15 @@ var templates_1 = __nccwpck_require__(5481);
 var Github = /** @class */ (function () {
     function Github() {
     }
-    Github.build = function (eventName, inputs) {
-        var _a;
-        if (!eventName || !eventName.length || !Github.supportedEvents.has(eventName)) {
-            return undefined;
-        }
+    Github.build = function (inputs) {
         switch (inputs.template) {
             case 'plain1':
             case 'plain2':
-                return (_a = templates_1.Plain.build(inputs)) === null || _a === void 0 ? void 0 : _a.validateInput();
+                return templates_1.Plain.build(inputs);
             default:
                 break;
         }
     };
-    Github.supportedEvents = new Set([
-        'push'
-    ]);
     return Github;
 }());
 exports.Github = Github;
@@ -306,17 +299,18 @@ var Plain = /** @class */ (function () {
 exports.Plain = Plain;
 var PlainOne = /** @class */ (function (_super) {
     __extends(PlainOne, _super);
-    function PlainOne() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function PlainOne(inputs) {
+        var _this = _super.call(this, inputs) || this;
+        _this.validateInput();
+        return _this;
     }
     PlainOne.prototype.validateInput = function () {
         if (!this.inputs.description || !this.inputs.description.length) {
             core.setFailed('Invalid "description" input provided ' +
-                'template "plain1". Please ensure it is a' +
+                'template "plain1". Please ensure it is a ' +
                 'non-empty string.');
         }
         this.inputValidated = true;
-        return this;
     };
     PlainOne.prototype.createSlackMessage = function () {
         var message = {
@@ -333,8 +327,10 @@ var PlainOne = /** @class */ (function (_super) {
 exports.PlainOne = PlainOne;
 var PlainTwo = /** @class */ (function (_super) {
     __extends(PlainTwo, _super);
-    function PlainTwo() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function PlainTwo(inputs) {
+        var _this = _super.call(this, inputs) || this;
+        _this.validateInput();
+        return _this;
     }
     PlainTwo.prototype.validateInput = function () {
         this.inputValidated = true;
@@ -451,10 +447,9 @@ function run() {
                     inputs = new github_1.Inputs();
                     slack = new slack_1.Slack(webhookUrl, inputs);
                     eventName = process.env.GITHUB_EVENT_NAME || '';
-                    github = github_1.Github.build(eventName, inputs);
+                    github = github_1.Github.build(inputs);
                     if (!!github) return [3 /*break*/, 1];
-                    core.warning("Github event \"" + eventName + "\" not yet supported");
-                    return [3 /*break*/, 3];
+                    throw new Error("Github Action template \"" + eventName + "\" not recognized.");
                 case 1:
                     message = github.createSlackMessage();
                     return [4 /*yield*/, slack.notify(message)];
