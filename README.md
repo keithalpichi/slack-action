@@ -1,4 +1,4 @@
-# Slack
+# Slack - Github Action 
 
 A Github Action that sends custom Slack notifications by use of templates.
 
