@@ -3,6 +3,9 @@ import { run } from '../src/run'
 import { setInputEnvs } from './fixtures'
 
 describe('Main', () => {
+  beforeEach(() => {
+    delete process.env.SLACK_WEBHOOK_URL
+  })
   afterEach(() => {
     delete process.env.SLACK_WEBHOOK_URL
     delete process.env.GITHUB_EVENT_NAME
