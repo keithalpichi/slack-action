@@ -17,7 +17,7 @@ export type Steps = Record<string, Step>
 export interface GithubSlackAdapter {
   // https://api.slack.com/methods/chat.postMessage
   createSlackMessage: () => IncomingWebhookSendArguments
-  validateInput: () => GithubSlackAdapter
+  validateInput: () => void
 }
 
 export class BaseGithubSlackAdapter<I extends Inputs> {

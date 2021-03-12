@@ -16,7 +16,7 @@ export class Github {
     switch (inputs.template) {
       case 'plain1':
       case 'plain2':
-        return Plain.build(inputs as PlainInputs)?.validateInput()
+        return Plain.build(inputs as PlainInputs)
       default:
         break
     }

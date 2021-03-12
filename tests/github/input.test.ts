@@ -6,6 +6,10 @@ describe('Inputs', () => {
     unsetInputEnvs()
   })
 
+  test('undefined but required inputs throws error', () => {
+    expect(() => new Inputs()).toThrowError()
+  })
+
   test('required inputs provided to Github Action', () => {
     setInputEnvs({
       template: 'plain1'

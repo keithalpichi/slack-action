@@ -23,7 +23,12 @@ export class Plain {
 }
 
 export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements GithubSlackAdapter {
-  validateInput(): GithubSlackAdapter {
+  constructor(inputs: PlainInputs) {
+    super(inputs)
+    this.validateInput()
+  }
+
+  validateInput(): void {
     if (!this.inputs.description || !this.inputs.description.length) {
       core.setFailed(
         'Invalid "description" input provided ' +
@@ -32,7 +37,6 @@ export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements Git
       )
     }
     this.inputValidated = true
-    return this
   }
 
   createSlackMessage(): IncomingWebhookSendArguments {
@@ -48,6 +52,11 @@ export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements Git
 }
 
 export class PlainTwo extends BaseGithubSlackAdapter<PlainInputs> implements GithubSlackAdapter {
+  constructor(inputs: PlainInputs) {
+    super(inputs)
+    this.validateInput()
+  }
+
   validateInput(): GithubSlackAdapter {
     this.inputValidated = true
     return this
