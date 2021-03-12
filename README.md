@@ -44,6 +44,9 @@ Below are inputs that are optional and used to override the default configuratio
 | input | short description |
 | - | - |
 | [`channel`](#channel) | The channel or user to send the Slack message to. |
+| [`username`](#username) | The username of the message. |
+| [`icon_emoji`](#icon_emoji) | Emoji to use as the icon for this message. Overrides `icon_url`. Find an appropriate emoji from this [source](https://unicodey.com/emoji-data/table.htm). |
+| [`icon_url`](#icon_emoji) | Public URL to an image to use as the icon for this message |
 
 ### `template`
 **`string`** (required)
@@ -60,7 +63,7 @@ See the [Templates](#templates) section below for images and details of each tem
 - name: Send Slack Notification
   uses: keithalpichi/slack
   with:
-    template: plain1
+    template: plain2
 ```
 ### `title`
 **`string`**
@@ -72,7 +75,7 @@ The title to display on the Slack notification message. If this is not provided,
 - name: Send Slack Notification
   uses: keithalpichi/slack
   with:
-    template: plain1
+    template: plain2
     title: Success
 ```
 
@@ -117,8 +120,7 @@ Providing a custom status:
 ### `channel`
 **`string`**
 
-The channel or user to send the Slack message to.
-- If this is not provided, it will default to the channel assigned to the Slack Incoming Webhook.
+Overrides the default channel or user to send the Slack message to.
 - If a channel is provided it must be a valid channel that starts with '#'
 - If a user is provided it must be a valid user that starts with '@'
 
@@ -128,7 +130,7 @@ The channel or user to send the Slack message to.
   uses: keithalpichi/slack
   with:
     template: plain1
-    channel: #cicd
+    channel: #pets
 ```
 ```
 - name: Send Slack Notification
@@ -137,6 +139,49 @@ The channel or user to send the Slack message to.
     template: plain1
     channel: @octocat
 ```
+
+### `username`
+**`string`**
+
+Overrides the default username of the message. This is the name specified as the sender of the message.
+
+#### Example usage
+```
+- name: Send Slack Notification
+  uses: keithalpichi/slack
+  with:
+    template: plain2
+    username: Al
+```
+
+### `icon_emoji`
+**`string`**
+
+Overrides the default emoji to use as the icon for this message. Overrides `icon_url` if they're both provided. Find an appropriate emoji from this [source](https://unicodey.com/emoji-data/table.htm).
+
+#### Example usage
+```
+- name: Send Slack Notification
+  uses: keithalpichi/slack
+  with:
+    template: plain2
+    icon_emoji: ":fire:"
+```
+
+### `icon_url`
+**`string`**
+
+Overrides the default public URL to an image to use as the icon for this message. This will be overridden by `icon_emoji` if they're both provided.
+
+#### Example usage
+```
+- name: Send Slack Notification
+  uses: keithalpichi/slack
+  with:
+    template: plain2
+    icon_url: https://octodex.github.com/images/original.png
+```
+
 
 ## Examples
 
