@@ -20,16 +20,16 @@ export class Slack {
     }
   }
 
-  private updateDefaults(original: IncomingWebhookSendArguments): IncomingWebhookSendArguments {
+  private mergeOptionOverrides(original: IncomingWebhookSendArguments): IncomingWebhookSendArguments {
     return {
       ...this.webhookOptions,
-      ...original
+      blocks: original.blocks
     }
   }
 
   async notify(message: IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
     const webhook = new IncomingWebhook(this.webhookUrl)
-    message = this.updateDefaults(message)
+    message = this.mergeOptionOverrides(message)
     return await webhook.send(message)
   }
 }
