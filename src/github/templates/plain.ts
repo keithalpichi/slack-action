@@ -32,7 +32,7 @@ export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements Git
     if (!this.inputs.description || !this.inputs.description.length) {
       core.setFailed(
         'Invalid "description" input provided ' +
-        'template "plain1". Please ensure it is a' +
+        'template "plain1". Please ensure it is a ' +
         'non-empty string.'
       )
     }

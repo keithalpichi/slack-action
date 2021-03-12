@@ -79,3 +79,11 @@ export function setActionEnvs(inputs?: Envs): void {
   }
   setProcessEnvs(inputs)
 }
+
+export function unsetActionEnvs(): void {
+  for (const key in process.env) {
+    if (key.startsWith('GITHUB_') && process.env[key]) {
+      delete process.env[key]
+    }
+  }
+}

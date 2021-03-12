@@ -25,7 +25,7 @@ describe('Plain1', () => {
     expect(process.stdout.write).toHaveBeenNthCalledWith(1,
       '::error::' +
       'Invalid "description" input provided ' +
-      'template "plain1". Please ensure it is a' +
+      'template "plain1". Please ensure it is a ' +
       'non-empty string.' +
       os.EOL)
   })

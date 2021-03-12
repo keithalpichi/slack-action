@@ -14,9 +14,9 @@ export async function run(): Promise<void> {
     const inputs = new Inputs()
     const slack = new Slack(webhookUrl, inputs)
     const eventName = process.env.GITHUB_EVENT_NAME || ''
-    const github = Github.build(eventName, inputs)
+    const github = Github.build(inputs)
     if (!github) {
-      core.warning(`Github event "${eventName}" not yet supported`)
+      throw new Error(`Github Action template "${eventName}" not recognized.`)
     } else {
       const message = github.createSlackMessage()
       await slack.notify(message)

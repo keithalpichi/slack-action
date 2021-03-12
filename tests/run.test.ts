@@ -3,12 +3,14 @@ import { run } from '../src/run'
 import { setInputEnvs } from './fixtures'
 
 describe('Main', () => {
+  const originalWrite = process.stdout.write
   beforeEach(() => {
     delete process.env.SLACK_WEBHOOK_URL
   })
   afterEach(() => {
     delete process.env.SLACK_WEBHOOK_URL
     delete process.env.GITHUB_EVENT_NAME
+    process.stdout.write = originalWrite
   })
 
   test('skips action & logs warning when process.env.SLACK_WEBHOOK_URL is undefined', async () => {
@@ -30,17 +32,21 @@ describe('Main', () => {
     expect(process.stdout.write).toHaveBeenCalled()
   })
 
-  test('skips action & logs warning when process.env.GITHUB_EVENT_NAME is not supported', async () => {
+  test('skips action & logs warning when template is not recognized', async () => {
+    // TODO: Need a better way to test actual output of stdout
     setInputEnvs({
-      template: 'plain1'
+      template: 'unknown',
     })
     process.stdout.write = jest.fn()
     process.env.SLACK_WEBHOOK_URL = '1234abcd'
     process.env.GITHUB_EVENT_NAME = 'unknown'
     expect(await run()).toBeUndefined
-    expect(process.stdout.write).toHaveBeenNthCalledWith(1,
-      '::warning::' +
-      'Github event "unknown" not yet supported' +
-      os.EOL)
+    expect(process.exitCode).toBe(1)
+    expect(process.stdout.write).toHaveBeenCalled()
   })
+  // expect(process.stdout.write).toHaveBeenNthCalledWith(1,
+  //   '::warning::' +
+  //   'Github Action template "unknown" not recognized.' +
+  //   os.EOL)
+  // })
 })
