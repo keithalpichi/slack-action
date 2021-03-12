@@ -647,8 +647,8 @@ var Slack = /** @class */ (function () {
             link_names: inputs.link_names || undefined
         };
     }
-    Slack.prototype.updateDefaults = function (original) {
-        return __assign(__assign({}, this.webhookOptions), original);
+    Slack.prototype.mergeOptionOverrides = function (original) {
+        return __assign(__assign({}, this.webhookOptions), { blocks: original.blocks });
     };
     Slack.prototype.notify = function (message) {
         return __awaiter(this, void 0, void 0, function () {
@@ -657,7 +657,7 @@ var Slack = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         webhook = new webhook_1.IncomingWebhook(this.webhookUrl);
-                        message = this.updateDefaults(message);
+                        message = this.mergeOptionOverrides(message);
                         return [4 /*yield*/, webhook.send(message)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
