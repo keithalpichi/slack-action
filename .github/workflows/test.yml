@@ -47,10 +47,10 @@ jobs:
       - uses: ./
         with:
           template: plain1
-          description: Override icon_url
-          icon_url: https://octodex.github.com/images/original.png
+          description: Override icon_emoji
+          icon_emoji: ":fire:"
       - uses: ./
         with:
           template: plain1
-          description: Override icon_emoji
-          icon_emoji: ":fire:" 
+          description: Override icon_url
+          icon_url: https://octodex.github.com/images/original.png
