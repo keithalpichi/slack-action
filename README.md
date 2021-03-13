@@ -29,7 +29,7 @@ Below are required inputs.
 
 | input | short description |
 | - | - |
-| [`template`](#template) | The template ID that identifies the template to use for the Slack notification message.  |
+| [`template`](#template) | The template ID that identifies the template to use for the Slack notification message. See the [Templates](#templates) section below for images and details of each template. |
 
 Below are inputs that are required or optional depending on the template you use.
 
@@ -49,7 +49,7 @@ Below are inputs that are optional and used to override the default configuratio
 | [`icon_url`](#icon_emoji) | Public URL to an image to use as the icon for this message |
 
 ### `template`
-**`string`** (required)
+(required)
 
 The template ID that identifies the template to use for the Slack notification message. You can use the following templates: 
 
@@ -66,7 +66,6 @@ See the [Templates](#templates) section below for images and details of each tem
     template: plain2
 ```
 ### `title`
-**`string`**
 
 The title to display on the Slack notification message. If this is not provided, "Github Action" is used.
 
@@ -80,7 +79,6 @@ The title to display on the Slack notification message. If this is not provided,
 ```
 
 ### `description`
-**`string`**
 
 The description to display on the Slack notification message.
 
@@ -95,7 +93,6 @@ The description to display on the Slack notification message.
 
 
 ### `status`
-**`job.status|string`**
 
 The current status of the job to use within the template. Usage of this input depends on the `template` input provided. If you'd like for Github to report the current status of the job use [`${{ job.status }}`](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#job-context). Possible status values reported by Github are success, failure, or cancelled. You may also choose to provide any string value.
 
@@ -118,7 +115,6 @@ Providing a custom status:
 ```
 
 ### `channel`
-**`string`**
 
 Overrides the default channel or user to send the Slack message to.
 - If a channel is provided it must be a valid channel that starts with '#'
@@ -141,7 +137,6 @@ Overrides the default channel or user to send the Slack message to.
 ```
 
 ### `username`
-**`string`**
 
 Overrides the default username of the message. This is the name specified as the sender of the message.
 
@@ -155,9 +150,8 @@ Overrides the default username of the message. This is the name specified as the
 ```
 
 ### `icon_emoji`
-**`string`**
 
-Overrides the default emoji to use as the icon for this message. Overrides `icon_url` if they're both provided. Find an appropriate emoji from this [source](https://unicodey.com/emoji-data/table.htm).
+Overrides the default emoji to use as the icon for this message. Overrides `icon_url` if they're both provided. Find an appropriate emoji from this [source](https://unicodey.com/emoji-data/table.htm). Ensure the emoji starts and ends with a colon. 
 
 #### Example usage
 ```
@@ -169,7 +163,6 @@ Overrides the default emoji to use as the icon for this message. Overrides `icon
 ```
 
 ### `icon_url`
-**`string`**
 
 Overrides the default public URL to an image to use as the icon for this message. This will be overridden by `icon_emoji` if they're both provided.
 
