@@ -18,7 +18,16 @@ inputs:
     description: Report on the status of individual steps
     required: false
   channel:
-    description: Override default channel with different channel or username
+    description: Override default channel assigned to the Slack Incoming Webhook with another channel or username
+    required: false
+  username:
+    description: Override default username assigned to the Slack Incoming Webhook
+    required: false
+  icon_emoji:
+    description: Override default emoji assigned to the Slack Incoming Webhook
+    required: false
+  icon_url:
+    description: Override default icon URL assigned to the Slack Incoming Webhook
     required: false
 runs:
   using: 'node12'
