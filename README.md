@@ -17,7 +17,7 @@ A Github Action that sends custom Slack notifications by use of templates.
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     ```
-1. Add this action as a step:
+1. Add this action as a step and make sure to replace `x.y.z.` with a valid [release version](https://github.com/keithalpichi/slack-action/releases):
     ```
     - name: Send Slack Notification
       uses: keithalpichi/slack-action@x.y.z
