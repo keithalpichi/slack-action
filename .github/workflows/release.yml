@@ -12,11 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Create Release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v0.1.5
         env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
