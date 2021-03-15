@@ -13,7 +13,7 @@ export type InputOptions = IncomingWebhookDefaultArguments & {
 
 
 export class Inputs {
-  template: string
+  template: TemplateIDs
   status: string
   title: string
   description: string
@@ -27,7 +27,7 @@ export class Inputs {
   link_names: boolean
 
   constructor() {
-    this.template = core.getInput('template', { required: true })
+    this.template = core.getInput('template', { required: true }) as TemplateIDs
     this.status = core.getInput('status')
     this.steps = JSON.parse(core.getInput('steps') || '{}') as Steps
     this.channel = core.getInput('channel')

@@ -1,4 +1,6 @@
 import { PlainTemplateIDs } from './plain'
+import { TableTemplateIDs } from './table'
 
 export * from './plain'
-export type TemplateIDs = PlainTemplateIDs
+export * from './table'
+export type TemplateIDs = PlainTemplateIDs | TableTemplateIDs
