@@ -26,7 +26,7 @@ version=$(cat package.json \
   | awk -F: '{ print $2 }' \
   | sed 's/[",]//g' \
   | tr -d '[[:space:]]')
-git commit -m \""$version"\"
+git commit -m "$version"
 
 echo "Pushing changes to repository"
 git push origin master
