@@ -20,7 +20,7 @@ A Github Action that sends custom Slack notifications by use of templates.
 1. Add this action as a step:
     ```
     - name: Send Slack Notification
-      uses: keithalpichi/slack
+      uses: keithalpichi/slack-action@x.y.z
     ```
 1. Add your desired inputs from the input section below to the step.
 
@@ -62,7 +62,7 @@ See the [Templates](#templates) section below for images and details of each tem
 #### Example usage
 ```
 - name: Send Slack Notification
-  uses: keithalpichi/slack
+  uses: keithalpichi/slack-action@x.y.z
   with:
     template: plain2
 ```
@@ -73,7 +73,7 @@ The title to display on the Slack notification message. If this is not provided,
 #### Example usage
 ```
 - name: Send Slack Notification
-  uses: keithalpichi/slack
+  uses: keithalpichi/slack-action@x.y.z
   with:
     template: plain2
     title: Success
@@ -86,7 +86,7 @@ The description to display on the Slack notification message.
 #### Example usage
 ```
 - name: Send Slack Notification
-  uses: keithalpichi/slack
+  uses: keithalpichi/slack-action@x.y.z
   with:
     template: plain1
     description: Everything looks good!
@@ -101,7 +101,7 @@ The current status of the job to use within the template. Usage of this input de
 Using the `job.status` context:
 ```
 - name: Send Slack Notification
-  uses: keithalpichi/slack
+  uses: keithalpichi/slack-action@x.y.z
   with:
     status: ${{ job.status }}
     template: plain2
@@ -109,7 +109,7 @@ Using the `job.status` context:
 Providing a custom status:
 ```
 - name: Send Slack Notification
-  uses: keithalpichi/slack
+  uses: keithalpichi/slack-action@x.y.z
   with:
     status: all green
     template: plain2
@@ -124,14 +124,14 @@ Overrides the default channel or user to send the Slack message to.
 #### Example usage
 ```
 - name: Send Slack Notification
-  uses: keithalpichi/slack
+  uses: keithalpichi/slack-action@x.y.z
   with:
     template: plain1
     channel: #pets
 ```
 ```
 - name: Send Slack Notification
-  uses: keithalpichi/slack
+  uses: keithalpichi/slack-action@x.y.z
   with:
     template: plain1
     channel: @octocat
@@ -144,7 +144,7 @@ Overrides the default username of the message. This is the name specified as the
 #### Example usage
 ```
 - name: Send Slack Notification
-  uses: keithalpichi/slack
+  uses: keithalpichi/slack-action@x.y.z
   with:
     template: plain2
     username: Al
@@ -157,7 +157,7 @@ Overrides the default emoji to use as the icon for this message. Overrides `icon
 #### Example usage
 ```
 - name: Send Slack Notification
-  uses: keithalpichi/slack
+  uses: keithalpichi/slack-action@x.y.z
   with:
     template: plain2
     icon_emoji: ":fire:"
@@ -170,7 +170,7 @@ Overrides the default public URL to an image to use as the icon for this message
 #### Example usage
 ```
 - name: Send Slack Notification
-  uses: keithalpichi/slack
+  uses: keithalpichi/slack-action@x.y.z
   with:
     template: plain2
     icon_url: https://octodex.github.com/images/original.png
