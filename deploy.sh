@@ -15,8 +15,10 @@ fi
 echo "Compiling source"
 npm run build
 
+git add ./dist/index.js
+
 echo "Updating $v_type package version"
-npm version --no-git-tag-version "$version"
+npm version --no-git-tag-version "$v_type"
 git add ./package-lock.json ./package.json
 version=$(cat package.json \
   | grep version \
