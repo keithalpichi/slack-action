@@ -1,6 +1,6 @@
 import { PlainTemplateIDs } from './plain'
-import { TableTemplateIDs } from './table'
+import { PushTemplateIDs } from './push'
 
 export * from './plain'
-export * from './table'
-export type TemplateIDs = PlainTemplateIDs | TableTemplateIDs
+export * from './push'
+export type TemplateIDs = PlainTemplateIDs | PushTemplateIDs

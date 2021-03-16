@@ -1,7 +1,7 @@
-import { Inputs, Table, TableOne, TableInputs } from '../../../src/github'
+import { Inputs, Push, PushOne, PushInputs } from '../../../src/github'
 import { setInputEnvs, setActionEnvs, unsetInputEnvs } from '../../fixtures'
 
-describe('Table', () => {
+describe('Push', () => {
   beforeEach(() => {
     setActionEnvs()
   })
@@ -10,21 +10,21 @@ describe('Table', () => {
     unsetInputEnvs()
   })
 
-  test('returns undefined for an unsupported Table template', () => {
+  test('returns undefined for an unsupported Push template', () => {
     setInputEnvs({
       template: 'unknown',
     })
     const inputs = new Inputs()
-    const plain = Table.build(inputs as TableInputs)
+    const plain = Push.build(inputs as PushInputs)
     expect(plain).toBeUndefined
   })
 
   test('returns a TableOne instance', () => {
     setInputEnvs({
-      template: 'table1',
+      template: 'push1',
     })
     const inputs = new Inputs()
-    const plain = Table.build(inputs as TableInputs)
-    expect(plain instanceof TableOne).toBeTruthy()
+    const plain = Push.build(inputs as PushInputs)
+    expect(plain instanceof PushOne).toBeTruthy()
   })
 })

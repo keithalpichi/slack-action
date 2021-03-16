@@ -1,9 +1,9 @@
 import * as os from 'os'
-import { Inputs, TableOne, TableInputs } from '../../../src/github'
+import { Inputs, PushOne, PushInputs } from '../../../src/github'
 import { setInputEnvs, setActionEnvs, unsetInputEnvs, unsetActionEnvs } from '../../fixtures'
 import { HeaderBlock, FullSectionBlock, SectionBlock, MDownText } from '../../../src/slack'
 
-describe('Table1', () => {
+describe('PushOne', () => {
   beforeEach(() => {
     setActionEnvs()
   })
@@ -13,31 +13,31 @@ describe('Table1', () => {
     unsetActionEnvs()
   })
 
-  test('should not build table1 template when status is undefined', () => {
+  test('should not build push1 template when status is undefined', () => {
     process.stdout.write = jest.fn()
     setInputEnvs({
-      template: 'table1',
+      template: 'push1',
     })
     const inputs = new Inputs()
-    const plain = new TableOne(inputs as TableInputs)
+    const plain = new PushOne(inputs as PushInputs)
     plain.validateInput()
     expect(plain.inputValidated).toBe(true)
     expect(process.exitCode).toBe(1)
     expect(process.stdout.write).toHaveBeenNthCalledWith(1,
       '::error::' +
       'Invalid "status" input provided ' +
-      'template "table1". Please ensure it is a ' +
+      'template "push1". Please ensure it is a ' +
       'non-empty string.' +
       os.EOL)
   })
 
-  test('creates a message with table1 template and all required input', () => {
+  test('creates a message with push1 template and all required input', () => {
     setInputEnvs({
-      template: 'table1',
+      template: 'push1',
       status: 'success'
     })
     const inputs = new Inputs()
-    const plain = new TableOne(inputs as TableInputs)
+    const plain = new PushOne(inputs as PushInputs)
     const result = plain.createSlackMessage()
     expect((result.blocks[0] as HeaderBlock).text.text).toBe('Github Action')
     expect(result.blocks[1].type).toBe('divider')
