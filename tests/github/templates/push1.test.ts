@@ -31,6 +31,42 @@ describe('PushOne', () => {
       os.EOL)
   })
 
+  test('has a default title provided by default input title', () => {
+    setInputEnvs({
+      template: 'push1',
+      status: 'success'
+    })
+    const inputs = new Inputs()
+    const plain = new PushOne(inputs as PushInputs)
+    const result = plain.createSlackMessage()
+    expect((result.blocks[0] as HeaderBlock).text.text).toBe('Github Action')
+  })
+
+  test('overrides default title', () => {
+    setInputEnvs({
+      template: 'push1',
+      status: 'success',
+      title: 'All green!'
+    })
+    const inputs = new Inputs()
+    const plain = new PushOne(inputs as PushInputs)
+    const result = plain.createSlackMessage()
+    expect((result.blocks[0] as HeaderBlock).text.text).toBe('All green!')
+  })
+
+  test('adds a description', () => {
+    setInputEnvs({
+      template: 'push1',
+      status: 'success',
+      description: 'description'
+    })
+    const inputs = new Inputs()
+    const plain = new PushOne(inputs as PushInputs)
+    const result = plain.createSlackMessage()
+    expect(result.blocks[2] instanceof FullSectionBlock).toBeTruthy()
+    expect((result.blocks[2] as FullSectionBlock).text.text).toBe('description')
+  })
+
   test('creates a message with push1 template and all required input', () => {
     setInputEnvs({
       template: 'push1',
