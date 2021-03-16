@@ -41,6 +41,24 @@ describe('Main', () => {
       os.EOL)
   })
 
+  test('sets job to failed when event name is not supported by desired template provided', async () => {
+    setInputEnvs({
+      template: 'push1',
+      status: 'success'
+    })
+    process.stdout.write = jest.fn()
+    process.env.SLACK_WEBHOOK_URL = '1234abcd'
+    process.env.GITHUB_EVENT_NAME = 'pull'
+    await run()
+    expect(process.exitCode).toBe(1)
+    expect(process.stdout.write).toHaveBeenCalled()
+    expect(process.stdout.write).toHaveBeenNthCalledWith(1,
+      '::error::' +
+      `Only push events are supported by the push1 template. ` +
+      `This template is being used in a pull event.` +
+      os.EOL)
+  })
+
   test('sets job to failed when required inputs are invalid for template', async () => {
     setInputEnvs({
       template: 'plain1',

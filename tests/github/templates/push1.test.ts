@@ -24,6 +24,22 @@ describe('PushOne', () => {
         'non-empty string.')
   })
 
+  test('throws error when event is not a push', () => {
+    setActionEnvs({
+      GITHUB_EVENT_NAME: 'pull'
+    })
+    setInputEnvs({
+      template: 'push1',
+      status: 'success'
+    })
+    const inputs = new Inputs()
+    expect(() => new PushOne(inputs as PushInputs))
+      .toThrow(
+        `Only push events are supported by the push1 template. ` +
+        `This template is being used in a pull event.`)
+  })
+
+
   test('has a default title provided by default input title', () => {
     setInputEnvs({
       template: 'push1',

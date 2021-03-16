@@ -27,6 +27,9 @@ export class PushOne extends BaseGithubSlackAdapter<PushInputs> implements Githu
   }
 
   validateInput(): void {
+    if (this.eventName !== 'push') {
+      throw this.unsupportedEventErr(this.eventName)
+    }
     if (!this.inputs.status) {
       throw new Error(
         'Invalid "status" input provided ' +
