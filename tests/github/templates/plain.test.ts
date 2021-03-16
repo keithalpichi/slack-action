@@ -1,4 +1,4 @@
-import { Inputs, Plain, PlainOne, PlainTwo, PlainInputs } from '../../../src/github'
+import { Inputs, Plain, PlainOne, PlainTwo, PlainInputs, BaseGithubSlackAdapter } from '../../../src/github'
 import { setInputEnvs, setActionEnvs, unsetInputEnvs } from '../../fixtures'
 
 describe('Plain', () => {
@@ -15,8 +15,8 @@ describe('Plain', () => {
       template: 'unknown',
     })
     const inputs = new Inputs()
-    const plain = Plain.build(inputs as PlainInputs)
-    expect(plain).toBeUndefined
+    expect(() => Plain.build(inputs as PlainInputs))
+      .toThrow(BaseGithubSlackAdapter.unsupportedTemplateErr('unknown'))
   })
 
   test('returns a PlainOne instance', () => {

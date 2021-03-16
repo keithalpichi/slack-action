@@ -10,14 +10,14 @@ export type PlainInputs = Inputs & {
 }
 
 export class Plain {
-  static build(inputs: PlainInputs): GithubSlackAdapter | undefined {
+  static build(inputs: PlainInputs): GithubSlackAdapter {
     switch (inputs.template) {
       case 'plain1':
         return new PlainOne(inputs)
       case 'plain2':
         return new PlainTwo(inputs)
       default:
-        return undefined
+        throw BaseGithubSlackAdapter.unsupportedTemplateErr(inputs.template)
     }
   }
 }

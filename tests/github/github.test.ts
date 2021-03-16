@@ -14,14 +14,14 @@ describe('Github', () => {
     process.stdout.write = originalWrite
   })
 
-  test('returns undefined for an unsupported event', () => {
+  test('exits with error for unsupported template', () => {
     process.env.GITHUB_EVENT_NAME = 'unknown'
     setInputEnvs({
-      template: 'plain1'
+      template: 'unknown'
     })
     const inputs = new Inputs()
-    const event = Github.build(inputs)
-    expect(event).toBeUndefined
+    expect(() => Github.build(inputs)).toThrow(
+      'The input "template" you provided ("unknown") is not recognized.')
   })
 
   test('should exit with error when required input for a template is undefined', () => {

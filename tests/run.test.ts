@@ -44,9 +44,4 @@ describe('Main', () => {
     expect(process.exitCode).toBe(1)
     expect(process.stdout.write).toHaveBeenCalled()
   })
-  // expect(process.stdout.write).toHaveBeenNthCalledWith(1,
-  //   '::warning::' +
-  //   'Github Action template "unknown" not recognized.' +
-  //   os.EOL)
-  // })
 })

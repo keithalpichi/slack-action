@@ -53,6 +53,12 @@ export class BaseGithubSlackAdapter<I extends Inputs> {
     this.actor = process.env.GITHUB_ACTOR || ''
   }
 
+  static unsupportedTemplateErr(template: string): Error {
+    return new Error(
+      `The input "template" you provided ("${template}") ` +
+      'is not recognized.')
+  }
+
   protected title(text: string): string {
     return text.charAt(0).toUpperCase() + text.slice(1)
   }

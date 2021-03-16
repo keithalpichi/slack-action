@@ -1,4 +1,4 @@
-import { Inputs, Push, PushOne, PushInputs } from '../../../src/github'
+import { Inputs, Push, PushOne, PushInputs, BaseGithubSlackAdapter } from '../../../src/github'
 import { setInputEnvs, setActionEnvs, unsetInputEnvs } from '../../fixtures'
 
 describe('Push', () => {
@@ -15,8 +15,8 @@ describe('Push', () => {
       template: 'unknown',
     })
     const inputs = new Inputs()
-    const plain = Push.build(inputs as PushInputs)
-    expect(plain).toBeUndefined
+    expect(() => Push.build(inputs as PushInputs))
+      .toThrow(BaseGithubSlackAdapter.unsupportedTemplateErr('unknown'))
   })
 
   test('returns a TableOne instance', () => {

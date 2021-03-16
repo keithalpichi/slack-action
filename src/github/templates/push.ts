@@ -12,12 +12,12 @@ export type PushInputs = Inputs & {
 }
 
 export class Push {
-  static build(inputs: PushInputs): GithubSlackAdapter | undefined {
+  static build(inputs: PushInputs): GithubSlackAdapter {
     switch (inputs.template) {
       case 'push1':
         return new PushOne(inputs)
       default:
-        return undefined
+        throw BaseGithubSlackAdapter.unsupportedTemplateErr(inputs.template)
     }
   }
 }
