@@ -6,25 +6,27 @@ import {
   PlainTextElement
 } from '@slack/types'
 
+export class MDownText implements MrkdwnElement {
+  public type: 'mrkdwn' = 'mrkdwn'
+  public text: string
+  constructor(text: string) {
+    this.text = text
+  }
+}
+
 export class SectionBlock implements SB {
   public type: 'section' = 'section'
-  public fields: MrkdwnElement[]
-  constructor(text: string[]) {
-    this.fields = text.map(t => ({
-      type: 'mrkdwn',
-      text: t
-    }))
+  public fields: MDownText[]
+  constructor(text?: string[]) {
+    this.fields = (text || []).map(t => new MDownText(t))
   }
 }
 
 export class FullSectionBlock implements SB {
   public type: 'section' = 'section'
-  public text: MrkdwnElement
+  public text: MDownText
   constructor(text: string) {
-    this.text = {
-      type: 'mrkdwn',
-      text
-    }
+    this.text = new MDownText(text)
   }
 }
 

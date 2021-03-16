@@ -4,5 +4,6 @@ export {
   SectionBlock,
   HeaderBlock,
   DividerBlock,
-  FullSectionBlock
+  FullSectionBlock,
+  MDownText
 } from './block'
