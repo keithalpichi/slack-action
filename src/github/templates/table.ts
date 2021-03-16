@@ -2,6 +2,8 @@ import { GithubSlackAdapter, BaseGithubSlackAdapter } from '../adapter'
 import { IncomingWebhookSendArguments } from '@slack/webhook'
 import { Inputs } from '../inputs'
 import { Block } from '@slack/types'
+import { SectionBlock, MDownText } from '../../slack'
+import * as core from '@actions/core'
 
 export type TableTemplateIDs = 'table1'
 
@@ -27,7 +29,18 @@ export class TableOne extends BaseGithubSlackAdapter<TableInputs> implements Git
   }
 
   validateInput(): void {
+    if (!this.inputs.status) {
+      core.setFailed(
+        'Invalid "status" input provided ' +
+        'template "table1". Please ensure it is a ' +
+        'non-empty string.'
+      )
+    }
     this.inputValidated = true
+  }
+
+  labelValue(label: string, value: string): string {
+    return `*${label}:*\n${value}`
   }
 
   createSlackMessage(): IncomingWebhookSendArguments {
@@ -38,56 +51,23 @@ export class TableOne extends BaseGithubSlackAdapter<TableInputs> implements Git
     if (this.inputs.description.length) {
       blocks.push(this.full_section_block(this.inputs.description))
     }
+    const tableSection = new SectionBlock()
+    tableSection.fields = tableSection.fields.concat([
+      new MDownText(this.labelValue('Repo', this.repositoryName)),
+      new MDownText(this.labelValue('Ref', this.branch)),
+      new MDownText(this.labelValue('Workflow', this.workflow)),
+      new MDownText(this.labelValue('Job', this.jobName)),
+      new MDownText(this.labelValue('Event', this.eventName)),
+      new MDownText(this.labelValue('Status', this.inputs.status)),
+      new MDownText(this.labelValue('Commit Hash', this.shortSha)),
+      new MDownText(this.labelValue('Run ID', this.runId)),
+      new MDownText(this.labelValue('Run Number',
+        this.link(this.workflowUrl, this.runNumber))),
+    ])
+    blocks.push(tableSection)
     const message: IncomingWebhookSendArguments = {
       blocks
     }
     return message
   }
 }
-/**
-    {
-      "type": "section",
-      "fields": [
-        {
-          "type": "mrkdwn",
-          "text": "*Repo:*\nOctocat"
-        },
-        {
-          "type": "mrkdwn",
-          "text": "*Ref:*\nmaster"
-        },
-        {
-          "type": "mrkdwn",
-          "text": "*Workflow:*\nTests"
-        },
-        {
-          "type": "mrkdwn",
-          "text": "*Job:*\nUnit Tests"
-        },
-        {
-          "type": "mrkdwn",
-          "text": "*Event:*\nPush"
-        },
-        {
-          "type": "mrkdwn",
-          "text": "*Status:*\nSuccess"
-        },
-        {
-          "type": "mrkdwn",
-          "text": "*Number of Commits:*\n1"
-        },
-        {
-          "type": "mrkdwn",
-          "text": "*Commit Hash:*\nacbde1234"
-        },
-        {
-          "type": "mrkdwn",
-          "text": "*Run ID:*\n3"
-        },
-        {
-          "type": "mrkdwn",
-          "text": "*Run Number:*\n<https://github.com/user/repo/actions/runs/12|12>"
-        }
-      ]
-    }
- */
