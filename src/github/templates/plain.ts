@@ -1,7 +1,6 @@
 import { GithubSlackAdapter, BaseGithubSlackAdapter } from '../adapter'
 import { IncomingWebhookSendArguments } from '@slack/webhook'
 import { Inputs } from '../inputs'
-import * as core from '@actions/core'
 
 export type PlainTemplateIDs = 'plain1' | 'plain2'
 
@@ -30,7 +29,7 @@ export class PlainOne extends BaseGithubSlackAdapter<PlainInputs> implements Git
 
   validateInput(): void {
     if (!this.inputs.description || !this.inputs.description.length) {
-      core.setFailed(
+      throw new Error(
         'Invalid "description" input provided ' +
         'template "plain1". Please ensure it is a ' +
         'non-empty string.'

@@ -24,20 +24,16 @@ describe('Github', () => {
       'The input "template" you provided ("unknown") is not recognized.')
   })
 
-  test('should exit with error when required input for a template is undefined', () => {
+  test('throws error when required input for a template is undefined', () => {
     process.stdout.write = jest.fn()
     setInputEnvs({
       template: 'plain1',
     })
     const inputs = new Inputs()
-    Github.build(inputs)
-    expect(process.exitCode).toBe(1)
-    expect(process.stdout.write).toHaveBeenNthCalledWith(1,
-      '::error::' +
+    expect(() => Github.build(inputs)).toThrow(
       'Invalid "description" input provided ' +
       'template "plain1". Please ensure it is a ' +
-      'non-empty string.' +
-      os.EOL)
+      'non-empty string.')
   })
 
   test('should return PlainOne instance', () => {

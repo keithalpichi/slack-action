@@ -10,7 +10,7 @@ describe('Push', () => {
     unsetInputEnvs()
   })
 
-  test('returns undefined for an unsupported Push template', () => {
+  test('throws error for an unsupported Push template', () => {
     setInputEnvs({
       template: 'unknown',
     })
@@ -19,9 +19,10 @@ describe('Push', () => {
       .toThrow(BaseGithubSlackAdapter.unsupportedTemplateErr('unknown'))
   })
 
-  test('returns a TableOne instance', () => {
+  test('returns a PushOne instance', () => {
     setInputEnvs({
       template: 'push1',
+      status: 'success'
     })
     const inputs = new Inputs()
     const plain = Push.build(inputs as PushInputs)

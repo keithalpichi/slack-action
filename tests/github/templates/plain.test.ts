@@ -10,7 +10,7 @@ describe('Plain', () => {
     unsetInputEnvs()
   })
 
-  test('returns undefined for an unsupported plain template', () => {
+  test('throws error for an unsupported plain template', () => {
     setInputEnvs({
       template: 'unknown',
     })

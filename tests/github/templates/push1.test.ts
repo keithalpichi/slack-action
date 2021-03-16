@@ -1,4 +1,3 @@
-import * as os from 'os'
 import { Inputs, PushOne, PushInputs } from '../../../src/github'
 import { setInputEnvs, setActionEnvs, unsetInputEnvs, unsetActionEnvs } from '../../fixtures'
 import { HeaderBlock, FullSectionBlock, SectionBlock, MDownText } from '../../../src/slack'
@@ -13,22 +12,16 @@ describe('PushOne', () => {
     unsetActionEnvs()
   })
 
-  test('should not build push1 template when status is undefined', () => {
-    process.stdout.write = jest.fn()
+  test('throws error when status is undefined', () => {
     setInputEnvs({
       template: 'push1',
     })
     const inputs = new Inputs()
-    const plain = new PushOne(inputs as PushInputs)
-    plain.validateInput()
-    expect(plain.inputValidated).toBe(true)
-    expect(process.exitCode).toBe(1)
-    expect(process.stdout.write).toHaveBeenNthCalledWith(1,
-      '::error::' +
-      'Invalid "status" input provided ' +
-      'template "push1". Please ensure it is a ' +
-      'non-empty string.' +
-      os.EOL)
+    expect(() => new PushOne(inputs as PushInputs))
+      .toThrow(
+        'Invalid "status" input provided ' +
+        'template "push1". Please ensure it is a ' +
+        'non-empty string.')
   })
 
   test('has a default title provided by default input title', () => {

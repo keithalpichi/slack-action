@@ -1,4 +1,3 @@
-import * as os from 'os'
 import { Inputs, PlainOne, PlainInputs } from '../../../src/github'
 import { setInputEnvs, setActionEnvs, unsetInputEnvs } from '../../fixtures'
 import { HeaderBlock, FullSectionBlock } from '../../../src/slack'
@@ -12,22 +11,16 @@ describe('Plain1', () => {
     unsetInputEnvs()
   })
 
-  test('should not build plain1 template when description is undefined', () => {
-    process.stdout.write = jest.fn()
+  test('throws error when description is undefined', () => {
     setInputEnvs({
       template: 'plain1',
     })
     const inputs = new Inputs()
-    const plain = new PlainOne(inputs as PlainInputs)
-    plain.validateInput()
-    expect(plain.inputValidated).toBe(true)
-    expect(process.exitCode).toBe(1)
-    expect(process.stdout.write).toHaveBeenNthCalledWith(1,
-      '::error::' +
-      'Invalid "description" input provided ' +
-      'template "plain1". Please ensure it is a ' +
-      'non-empty string.' +
-      os.EOL)
+    expect(() => new PlainOne(inputs as PlainInputs))
+      .toThrow(
+        'Invalid "description" input provided ' +
+        'template "plain1". Please ensure it is a ' +
+        'non-empty string.')
   })
 
   test('creates a message with plain1 template', () => {

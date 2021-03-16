@@ -1,9 +1,7 @@
 import { GithubSlackAdapter, BaseGithubSlackAdapter } from '../adapter'
 import { IncomingWebhookSendArguments } from '@slack/webhook'
 import { Inputs } from '../inputs'
-import { Block } from '@slack/types'
-import { SectionBlock, MDownText, LayoutTable } from '../../slack'
-import * as core from '@actions/core'
+import { LayoutTable } from '../../slack'
 
 export type PushTemplateIDs = 'push1'
 
@@ -30,7 +28,7 @@ export class PushOne extends BaseGithubSlackAdapter<PushInputs> implements Githu
 
   validateInput(): void {
     if (!this.inputs.status) {
-      core.setFailed(
+      throw new Error(
         'Invalid "status" input provided ' +
         'template "push1". Please ensure it is a ' +
         'non-empty string.'
