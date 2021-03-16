@@ -36,6 +36,14 @@ var BaseGithubSlackAdapter = /** @class */ (function () {
         this.branch = process.env.GITHUB_HEAD_REF || ((_a = process.env.GITHUB_REF) === null || _a === void 0 ? void 0 : _a.replace('refs/heads/', '')) || '';
         this.actor = process.env.GITHUB_ACTOR || '';
     }
+    BaseGithubSlackAdapter.unsupportedTemplateErr = function (template) {
+        return new Error("The input \"template\" you provided (\"" + template + "\") " +
+            'is not recognized.');
+    };
+    BaseGithubSlackAdapter.prototype.unsupportedEventErr = function (event) {
+        return new Error("Only push events are supported by the " + this.inputs.template + " template. " +
+            ("This template is being used in a " + event + " event."));
+    };
     BaseGithubSlackAdapter.prototype.title = function (text) {
         return text.charAt(0).toUpperCase() + text.slice(1);
     };
@@ -125,6 +133,7 @@ exports.BaseGithubSlackAdapter = BaseGithubSlackAdapter;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Github = void 0;
+var adapter_1 = __nccwpck_require__(8026);
 var templates_1 = __nccwpck_require__(5481);
 var Github = /** @class */ (function () {
     function Github() {
@@ -134,8 +143,10 @@ var Github = /** @class */ (function () {
             case 'plain1':
             case 'plain2':
                 return templates_1.Plain.build(inputs);
+            case 'push1':
+                return templates_1.Push.build(inputs);
             default:
-                break;
+                throw adapter_1.BaseGithubSlackAdapter.unsupportedTemplateErr(inputs.template);
         }
     };
     return Github;
@@ -161,7 +172,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Github = void 0;
+exports.Github = exports.BaseGithubSlackAdapter = void 0;
+var adapter_1 = __nccwpck_require__(8026);
+Object.defineProperty(exports, "BaseGithubSlackAdapter", ({ enumerable: true, get: function () { return adapter_1.BaseGithubSlackAdapter; } }));
 __exportStar(__nccwpck_require__(5481), exports);
 var github_1 = __nccwpck_require__(1294);
 Object.defineProperty(exports, "Github", ({ enumerable: true, get: function () { return github_1.Github; } }));
@@ -203,7 +216,7 @@ var Inputs = /** @class */ (function () {
         this.status = core.getInput('status');
         this.steps = JSON.parse(core.getInput('steps') || '{}');
         this.channel = core.getInput('channel');
-        this.title = core.getInput('title');
+        this.title = core.getInput('title') || 'Github Action';
         this.description = core.getInput('description');
         this.username = core.getInput('username');
         this.icon_emoji = core.getInput('icon_emoji');
@@ -236,6 +249,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__nccwpck_require__(5770), exports);
+__exportStar(__nccwpck_require__(9694), exports);
 
 
 /***/ }),
@@ -258,29 +272,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PlainTwo = exports.PlainOne = exports.Plain = void 0;
 var adapter_1 = __nccwpck_require__(8026);
-var core = __importStar(__nccwpck_require__(2186));
 var Plain = /** @class */ (function () {
     function Plain() {
     }
@@ -291,7 +285,7 @@ var Plain = /** @class */ (function () {
             case 'plain2':
                 return new PlainTwo(inputs);
             default:
-                return undefined;
+                throw adapter_1.BaseGithubSlackAdapter.unsupportedTemplateErr(inputs.template);
         }
     };
     return Plain;
@@ -306,7 +300,7 @@ var PlainOne = /** @class */ (function (_super) {
     }
     PlainOne.prototype.validateInput = function () {
         if (!this.inputs.description || !this.inputs.description.length) {
-            core.setFailed('Invalid "description" input provided ' +
+            throw new Error('Invalid "description" input provided ' +
                 'template "plain1". Please ensure it is a ' +
                 'non-empty string.');
         }
@@ -350,6 +344,88 @@ var PlainTwo = /** @class */ (function (_super) {
     return PlainTwo;
 }(adapter_1.BaseGithubSlackAdapter));
 exports.PlainTwo = PlainTwo;
+
+
+/***/ }),
+
+/***/ 9694:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PushOne = exports.Push = void 0;
+var adapter_1 = __nccwpck_require__(8026);
+var slack_1 = __nccwpck_require__(5403);
+var Push = /** @class */ (function () {
+    function Push() {
+    }
+    Push.build = function (inputs) {
+        switch (inputs.template) {
+            case 'push1':
+                return new PushOne(inputs);
+            default:
+                throw adapter_1.BaseGithubSlackAdapter.unsupportedTemplateErr(inputs.template);
+        }
+    };
+    return Push;
+}());
+exports.Push = Push;
+var PushOne = /** @class */ (function (_super) {
+    __extends(PushOne, _super);
+    function PushOne(inputs) {
+        var _this = _super.call(this, inputs) || this;
+        _this.validateInput();
+        return _this;
+    }
+    PushOne.prototype.validateInput = function () {
+        if (this.eventName !== 'push') {
+            throw this.unsupportedEventErr(this.eventName);
+        }
+        if (!this.inputs.status) {
+            throw new Error('Invalid "status" input provided ' +
+                'template "push1". Please ensure it is a ' +
+                'non-empty string.');
+        }
+        this.inputValidated = true;
+    };
+    PushOne.prototype.labelValue = function (label, value) {
+        return "*" + label + ":*\n" + value;
+    };
+    PushOne.prototype.createSlackMessage = function () {
+        var lt = new slack_1.LayoutTable(this.inputs);
+        lt.concatCells([
+            this.labelValue('Repo', this.repositoryName),
+            this.labelValue('Ref', this.branch),
+            this.labelValue('Workflow', this.workflow),
+            this.labelValue('Job', this.jobName),
+            this.labelValue('Event', this.eventName),
+            this.labelValue('Status', this.inputs.status),
+            this.labelValue('Commit Hash', this.shortSha),
+            this.labelValue('Run ID', this.runId),
+            this.labelValue('Run Number', this.link(this.workflowUrl, this.runNumber)),
+        ]);
+        var message = {
+            blocks: lt.blocks
+        };
+        return message;
+    };
+    return PushOne;
+}(adapter_1.BaseGithubSlackAdapter));
+exports.PushOne = PushOne;
 
 
 /***/ }),
@@ -433,36 +509,30 @@ var slack_1 = __nccwpck_require__(5403);
 var github_1 = __nccwpck_require__(3877);
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var webhookUrl, inputs, slack, eventName, github, message, error_1;
+        var webhookUrl, inputs, slack, github, message, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 4, , 5]);
+                    _a.trys.push([0, 2, , 3]);
                     webhookUrl = process.env.SLACK_WEBHOOK_URL || '';
                     if (!webhookUrl) {
-                        core.warning('Missing "SLACK_WEBHOOK_URL" secret. Please ensure one exists ' +
+                        throw new Error('Missing "SLACK_WEBHOOK_URL" secret. Please ensure one exists ' +
                             'in order for this Github Action to work.');
-                        return [2 /*return*/];
                     }
                     inputs = new github_1.Inputs();
                     slack = new slack_1.Slack(webhookUrl, inputs);
-                    eventName = process.env.GITHUB_EVENT_NAME || '';
                     github = github_1.Github.build(inputs);
-                    if (!!github) return [3 /*break*/, 1];
-                    throw new Error("Github Action template \"" + eventName + "\" not recognized.");
-                case 1:
                     message = github.createSlackMessage();
                     return [4 /*yield*/, slack.notify(message)];
-                case 2:
+                case 1:
                     _a.sent();
-                    _a.label = 3;
-                case 3: return [3 /*break*/, 5];
-                case 4:
+                    return [3 /*break*/, 3];
+                case 2:
                     error_1 = _a.sent();
                     core.setFailed(error_1.message);
                     core.error(error_1.stack);
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
         });
     });
@@ -478,14 +548,19 @@ exports.run = run;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.DividerBlock = exports.HeaderBlock = exports.FullSectionBlock = exports.SectionBlock = void 0;
+exports.DividerBlock = exports.HeaderBlock = exports.FullSectionBlock = exports.SectionBlock = exports.MDownText = void 0;
+var MDownText = /** @class */ (function () {
+    function MDownText(text) {
+        this.type = 'mrkdwn';
+        this.text = text;
+    }
+    return MDownText;
+}());
+exports.MDownText = MDownText;
 var SectionBlock = /** @class */ (function () {
     function SectionBlock(text) {
         this.type = 'section';
-        this.fields = text.map(function (t) { return ({
-            type: 'mrkdwn',
-            text: t
-        }); });
+        this.fields = (text || []).map(function (t) { return new MDownText(t); });
     }
     return SectionBlock;
 }());
@@ -493,10 +568,7 @@ exports.SectionBlock = SectionBlock;
 var FullSectionBlock = /** @class */ (function () {
     function FullSectionBlock(text) {
         this.type = 'section';
-        this.text = {
-            type: 'mrkdwn',
-            text: text
-        };
+        this.text = new MDownText(text);
     }
     return FullSectionBlock;
 }());
@@ -525,12 +597,23 @@ exports.DividerBlock = {
 /***/ }),
 
 /***/ 5403:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.FullSectionBlock = exports.DividerBlock = exports.HeaderBlock = exports.SectionBlock = exports.Markdown = exports.Slack = void 0;
+exports.MDownText = exports.FullSectionBlock = exports.DividerBlock = exports.HeaderBlock = exports.SectionBlock = exports.Markdown = exports.Slack = void 0;
+__exportStar(__nccwpck_require__(5748), exports);
 var slack_1 = __nccwpck_require__(9146);
 Object.defineProperty(exports, "Slack", ({ enumerable: true, get: function () { return slack_1.Slack; } }));
 var markdown_1 = __nccwpck_require__(1719);
@@ -540,6 +623,51 @@ Object.defineProperty(exports, "SectionBlock", ({ enumerable: true, get: functio
 Object.defineProperty(exports, "HeaderBlock", ({ enumerable: true, get: function () { return block_1.HeaderBlock; } }));
 Object.defineProperty(exports, "DividerBlock", ({ enumerable: true, get: function () { return block_1.DividerBlock; } }));
 Object.defineProperty(exports, "FullSectionBlock", ({ enumerable: true, get: function () { return block_1.FullSectionBlock; } }));
+Object.defineProperty(exports, "MDownText", ({ enumerable: true, get: function () { return block_1.MDownText; } }));
+
+
+/***/ }),
+
+/***/ 5748:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LayoutTable = void 0;
+var block_1 = __nccwpck_require__(4923);
+var LayoutTable = /** @class */ (function () {
+    function LayoutTable(inputs) {
+        this.blocks = [
+            new block_1.HeaderBlock(inputs.title),
+            block_1.DividerBlock,
+        ];
+        if (inputs.description.length) {
+            this.blocks.push(new block_1.FullSectionBlock(inputs.description));
+        }
+        this.blocks.push(new block_1.SectionBlock());
+    }
+    LayoutTable.prototype.addCell = function (text) {
+        var sb = this.blocks[this.blocks.length - 1];
+        if (sb.fields.length === 10) {
+            throw new Error('Cannot add more than 10 cell items. ' +
+                'See https://api.slack.com/reference/block-kit/blocks#section_fields ' +
+                'for more details.');
+        }
+        sb.fields.push(new block_1.MDownText(text));
+    };
+    LayoutTable.prototype.concatCells = function (text) {
+        var sb = this.blocks[this.blocks.length - 1];
+        if (sb.fields.length === 10 || sb.fields.length + text.length > 10) {
+            throw new Error('Cannot add more than 10 cell items. ' +
+                'See https://api.slack.com/reference/block-kit/blocks#section_fields ' +
+                'for more details.');
+        }
+        sb.fields = sb.fields.concat(text.map(function (t) { return new block_1.MDownText(t); }));
+    };
+    return LayoutTable;
+}());
+exports.LayoutTable = LayoutTable;
 
 
 /***/ }),
