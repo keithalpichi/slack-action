@@ -5,7 +5,7 @@ A Github Action that sends custom Slack notifications by use of templates.
 ![](https://github.com/keithalpichi/slack-action/actions/workflows/release.yml/badge.svg)
 ![](https://github.com/keithalpichi/slack-action/actions/workflows/test.yml/badge.svg)
 
-![](https://user-images.githubusercontent.com/14797743/111269255-9c3d3d80-85eb-11eb-8a59-e6d9c716e6e4.png)
+![](https://user-images.githubusercontent.com/14797743/111272704-33a48f80-85f0-11eb-917c-6eb40c2dc473.png)
 
 ## Configuration
 
@@ -257,4 +257,4 @@ with:
   description: optional description
   status: ${{ job.status }}
 ```
-![](https://user-images.githubusercontent.com/14797743/111269255-9c3d3d80-85eb-11eb-8a59-e6d9c716e6e4.png)
+![](https://user-images.githubusercontent.com/14797743/111272704-33a48f80-85f0-11eb-917c-6eb40c2dc473.png)
