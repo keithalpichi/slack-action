@@ -245,6 +245,8 @@ A message with a link to the Github Action run and a custom title as the title.
 
 ### `push1`
 
+> this template can only be used for "push" events
+
 A message with push event details provided in a two-column table. The link to the workflow run is provided in the "Run Number" cell. This template uses the following inputs:
 - status (required)- the status to put into the "Status" cell (see image below)
 - title - if provided, overrides the default title "Github Action" 
