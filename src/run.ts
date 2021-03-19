@@ -6,21 +6,15 @@ export async function run(): Promise<void> {
   try {
     const webhookUrl = process.env.SLACK_WEBHOOK_URL || ''
     if (!webhookUrl) {
-      core.warning(
+      throw new Error(
         'Missing "SLACK_WEBHOOK_URL" secret. Please ensure one exists ' +
         'in order for this Github Action to work.')
-      return
     }
     const inputs = new Inputs()
     const slack = new Slack(webhookUrl, inputs)
-    const eventName = process.env.GITHUB_EVENT_NAME || ''
     const github = Github.build(inputs)
-    if (!github) {
-      throw new Error(`Github Action template "${eventName}" not recognized.`)
-    } else {
-      const message = github.createSlackMessage()
-      await slack.notify(message)
-    }
+    const message = github.createSlackMessage()
+    await slack.notify(message)
   } catch (error) {
     core.setFailed(error.message)
     core.error(error.stack)

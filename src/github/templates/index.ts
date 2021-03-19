@@ -1,4 +1,6 @@
 import { PlainTemplateIDs } from './plain'
+import { PushTemplateIDs } from './push'
 
 export * from './plain'
-export type TemplateIDs = PlainTemplateIDs
+export * from './push'
+export type TemplateIDs = PlainTemplateIDs | PushTemplateIDs

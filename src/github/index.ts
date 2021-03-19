@@ -1,6 +1,7 @@
 export {
   Steps,
-  Status, StepOutcome
+  Status, StepOutcome,
+  BaseGithubSlackAdapter
 } from './adapter'
 export * from './templates'
 export { Github } from './github'

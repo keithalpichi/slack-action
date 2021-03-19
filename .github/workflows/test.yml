@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '14'
       - run: npm install
-      - run: npm test
+      - run: npm run build
       - uses: ./
         with:
           template: plain1
@@ -53,3 +53,7 @@ jobs:
           template: plain1
           description: Override icon_url
           icon_url: https://octodex.github.com/images/original.png
+      - uses: ./
+        with:
+          template: push1
+          status: ${{ job.status }}

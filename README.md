@@ -5,6 +5,8 @@ A Github Action that sends custom Slack notifications by use of templates.
 ![](https://github.com/keithalpichi/slack-action/actions/workflows/release.yml/badge.svg)
 ![](https://github.com/keithalpichi/slack-action/actions/workflows/test.yml/badge.svg)
 
+![](https://user-images.githubusercontent.com/14797743/111272704-33a48f80-85f0-11eb-917c-6eb40c2dc473.png)
+
 ## Configuration
 
 1. Create an [Incoming Webhook](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) in your Slack workspace. Copy the webhook URL, you'll need it in the next step.
@@ -17,7 +19,7 @@ A Github Action that sends custom Slack notifications by use of templates.
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     ```
-1. Add this action as a step:
+1. Add this action as a step and make sure to replace `x.y.z.` with a valid [release version](https://github.com/keithalpichi/slack-action/releases):
     ```
     - name: Send Slack Notification
       uses: keithalpichi/slack-action@x.y.z
@@ -56,6 +58,7 @@ The template ID that identifies the template to use for the Slack notification m
 
 - `plain1`- a template for plain messages that displays a custom description.
 - `plain2`- a template for plain messages that displays the link to the current Github Action run.
+- `push1`- a template for a message with push event details such as git commit hash, run ID & #, branch, status and more provided in a two-column table.
 
 See the [Templates](#templates) section below for images and details of each template.
 
@@ -239,3 +242,21 @@ with:
 ```
 A message with a link to the Github Action run and a custom title as the title.
 ![](https://user-images.githubusercontent.com/14797743/110732181-80472f80-81d8-11eb-8f4f-b659882800b7.png)
+
+### `push1`
+
+> this template can only be used for "push" events
+
+A message with push event details provided in a two-column table. The link to the workflow run is provided in the "Run Number" cell. This template uses the following inputs:
+- status (required)- the status to put into the "Status" cell (see image below)
+- title - if provided, overrides the default title "Github Action" 
+- description- if provided, inserts the description below the title
+- channel- if provided, overrides the default channel assigned to the Slack Incoming Webhook
+
+```
+with:
+  template: push1
+  description: optional description
+  status: ${{ job.status }}
+```
+![](https://user-images.githubusercontent.com/14797743/111272704-33a48f80-85f0-11eb-917c-6eb40c2dc473.png)
