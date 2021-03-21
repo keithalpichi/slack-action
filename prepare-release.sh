@@ -15,17 +15,23 @@ pkg_version=$(cat package.json \
   | sed 's/[",]//g' \
   | tr -d '[[:space:]]')
 
+echo "Package version: $pkg_version"
+echo "Release version: $release_version"
+echo "Current tags"
+git tag -l
 if [[ $(git tag -l | grep -q "$pkg_version"; echo $?) == "0" ]]; then
   # Desired release version has already been released. Skipping the rest of
   # the script to prevent infinite loops in Github actions
   exit 0
 fi
+echo "Confirmed npm package version $pkg_version is a unique tag"
 if [[ $(git tag -l | grep -q "$release_version"; echo $?) == "0" ]]; then
   # Desired release version has already been released. Skipping the rest of
   # the script to prevent infinite loops in Github actions
   exit 0
 fi
 echo "Confirmed release version $release_version is a unique tag"
+exit 0
 
 echo "Installing dependencies"
 npm install
