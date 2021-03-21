@@ -1,4 +1,3 @@
-import * as os from 'os'
 import { Github, Inputs, PlainOne, PlainTwo } from '../../src/github'
 import { setInputEnvs, setActionEnvs, unsetInputEnvs, unsetActionEnvs } from '../fixtures'
 
