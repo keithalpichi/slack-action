@@ -8,11 +8,12 @@ git fetch --all
 echo "Finding latest release branch"
 release_version=$(git branch -r | grep release | awk -F/ '{ print $3 }' | sort -Vr | head -n 1)
 
-echo "Confirming release version $release_version is a unique tag"
 if [[ $(git tag -l | grep -q "$release_version"; echo $?) == "0" ]]; then
-  echo "Desired release version $release_version has already been released."
-  exit 1
+  # Desired release version has already been released. Skipping the rest of
+  # the script to prevent infinite loops in Github actions
+  exit 0
 fi
+echo "Confirmed release version $release_version is a unique tag"
 
 echo "Installing dependencies"
 npm install
