@@ -32,7 +32,6 @@ if [[ $(git tag -l | grep -q "$release_version"; echo $?) == "0" ]]; then
   exit 0
 fi
 echo "Confirmed release version $release_version is a unique tag"
-exit 0
 
 echo "Installing dependencies"
 npm install
