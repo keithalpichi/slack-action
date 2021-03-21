@@ -2,11 +2,10 @@ name: Test
 on:
   push:
     branches:
-      - master
       - feature/**
       - release/**
 jobs:
-  notify:
+  test:
     runs-on: ubuntu-20.04
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

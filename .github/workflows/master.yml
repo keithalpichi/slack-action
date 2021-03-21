@@ -1,0 +1,21 @@
+name: Master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  prepare-release:
+    runs-on: ubuntu-20.04
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install
+      - run: npm run prepare-release
+        env:
+          PA_TOKEN: ${{ secrets.PA_TOKEN }} # Use personal access token to trigger another workflow.
