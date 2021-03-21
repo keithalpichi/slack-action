@@ -3,11 +3,10 @@
 set -euo pipefail
 
 echo "Retrieving all branches & tags"
-git fetch --all
-git fetch --tags
+git pull --all
 
-echo "Finding latest release branch"
 git branch
+echo "Finding latest release branch"
 release_version=$(git branch | grep release | awk -F/ '{ print $2 }' | sort -Vr | head -n 1)
 
 echo "Confirming release version $release_version is a unique tag"
