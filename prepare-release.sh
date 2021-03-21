@@ -4,6 +4,7 @@ set -euo pipefail
 
 echo "Retrieving all branches & tags"
 git fetch --all
+git fetch --tags
 
 echo "Finding latest release branch"
 release_version=$(git branch -r | grep release | awk -F/ '{ print $3 }' | sort -Vr | head -n 1)
