@@ -10,7 +10,7 @@
     "lint": "eslint src/**/*.ts tests/**/*.ts",
     "clean": "rm -rf ./lib/*",
     "build": "npm run clean && npm run compile-ts && npm run lint && npm run compile && npm run test",
-    "deploy": "./deploy.sh"
+    "prepare-release": "./prepare-release.sh"
   },
   "keywords": [],
   "author": "",

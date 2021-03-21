@@ -2,6 +2,7 @@
 
 A Github Action that sends custom Slack notifications by use of templates.
 
+![](https://github.com/keithalpichi/slack-action/actions/workflows/master.yml/badge.svg)
 ![](https://github.com/keithalpichi/slack-action/actions/workflows/release.yml/badge.svg)
 ![](https://github.com/keithalpichi/slack-action/actions/workflows/test.yml/badge.svg)
 
