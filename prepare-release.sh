@@ -35,7 +35,7 @@ git remote add github "https://$GITHUB_ACTOR:$PA_TOKEN@github.com/$GITHUB_REPOSI
 echo "Pushing changes to repository"
 git push origin master
 
-echo "Creating new $version tag"
-git tag "$version"
-echo "Pushing $version tag to repository"
-git push origin "$version"
+echo "Creating new $release_version tag"
+git tag "$release_version"
+echo "Pushing $release_version tag to repository"
+git push origin "$release_version"
