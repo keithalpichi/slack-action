@@ -4,9 +4,7 @@ set -euo pipefail
 
 echo "Retrieving all branches & tags"
 git fetch --all
-git fetch --tags
 
-git branch -r
 echo "Finding latest release branch"
 release_version=$(git branch -r | grep release | awk -F/ '{ print $3 }' | sort -Vr | head -n 1)
 
@@ -30,7 +28,7 @@ git config user.email "slack-action-bot@bot.com"
 
 git add .
 git commit -m "$release_version"
-git remote add github "https://$GITHUB_ACTOR:$PA_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+git remote add origin "https://$GITHUB_ACTOR:$PA_TOKEN@github.com/$GITHUB_REPOSITORY.git"
 
 echo "Pushing changes to repository"
 git push origin master
