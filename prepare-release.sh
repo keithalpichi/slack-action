@@ -7,9 +7,9 @@ git fetch --all
 git fetch --tags
 
 echo "Finding latest release branch"
-release_version=$(git branch | grep release | awk -F/ '{ print $2 } ' | sort -Vr)
+release_version=$(git branch | grep release | awk -F/ '{ print $2 }' | sort -Vr | head -n 1)
 
-echo "Confirming release version is a unique tag"
+echo "Confirming release version $release_version is a unique tag"
 if [[ $(git tags | grep -q "$release_version"; echo $?) == "0" ]]; then
   echo "Desired release version $release_version has already been released."
   exit 1
