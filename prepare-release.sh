@@ -23,8 +23,8 @@ npm run build
 echo "Updating package version to $release_version"
 npm version --no-git-tag-version "$release_version"
 
-git config user.name "slack-action-bot"
-git config user.email "slack-action-bot@bot.com"
+git config user.name "keithalpichi"
+git config user.email "keithalpichi@example.com"
 
 git add .
 git commit -m "$release_version"
