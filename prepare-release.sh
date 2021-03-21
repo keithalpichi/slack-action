@@ -9,7 +9,7 @@ echo "Finding latest release branch"
 release_version=$(git branch -r | grep release | awk -F/ '{ print $3 }' | sort -Vr | head -n 1)
 
 echo "Confirming release version $release_version is a unique tag"
-if [[ $(git tags | grep -q "$release_version"; echo $?) == "0" ]]; then
+if [[ $(git tag -l | grep -q "$release_version"; echo $?) == "0" ]]; then
   echo "Desired release version $release_version has already been released."
   exit 1
 fi
@@ -28,7 +28,6 @@ git config user.email "slack-action-bot@bot.com"
 
 git add .
 git commit -m "$release_version"
-git remote add origin "https://$GITHUB_ACTOR:$PA_TOKEN@github.com/$GITHUB_REPOSITORY.git"
 
 echo "Pushing changes to repository"
 git push origin master
