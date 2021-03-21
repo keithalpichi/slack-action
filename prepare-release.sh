@@ -8,6 +8,18 @@ git fetch --all
 echo "Finding latest release branch"
 release_version=$(git branch -r | grep release | awk -F/ '{ print $3 }' | sort -Vr | head -n 1)
 
+pkg_version=$(cat package.json \
+  | grep version \
+  | head -1 \
+  | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g' \
+  | tr -d '[[:space:]]')
+
+if [[ $(git tag -l | grep -q "$pkg_version"; echo $?) == "0" ]]; then
+  # Desired release version has already been released. Skipping the rest of
+  # the script to prevent infinite loops in Github actions
+  exit 0
+fi
 if [[ $(git tag -l | grep -q "$release_version"; echo $?) == "0" ]]; then
   # Desired release version has already been released. Skipping the rest of
   # the script to prevent infinite loops in Github actions
