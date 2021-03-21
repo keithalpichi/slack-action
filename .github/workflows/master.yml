@@ -17,5 +17,3 @@ jobs:
           node-version: '14'
       - run: npm install
       - run: npm run prepare-release
-        env:
-          PA_TOKEN: ${{ secrets.PA_TOKEN }} # Use personal access token to trigger another workflow.
