@@ -6,7 +6,11 @@ A Github Action that sends custom Slack notifications by use of templates.
 ![](https://github.com/keithalpichi/slack-action/actions/workflows/release.yml/badge.svg)
 ![](https://github.com/keithalpichi/slack-action/actions/workflows/test.yml/badge.svg)
 
+## Examples of Some Templates
+### `push1`
 ![](https://user-images.githubusercontent.com/14797743/111272704-33a48f80-85f0-11eb-917c-6eb40c2dc473.png)
+### `steps1`
+![](https://user-images.githubusercontent.com/14797743/112259892-48070e80-8c26-11eb-8642-88b7a953dbf8.png)
 
 ## Configuration
 
@@ -60,6 +64,7 @@ The template ID that identifies the template to use for the Slack notification m
 - `plain1`- a template for plain messages that displays a custom description.
 - `plain2`- a template for plain messages that displays the link to the current Github Action run.
 - `push1`- a template for a message with push event details such as git commit hash, run ID & #, branch, status and more provided in a two-column table.
+- `steps1`- a template for a message that summarizes the statuses of all the steps in the job. Each summary includes an emoji, the step identifier, and the status of the step. 
 
 See the [Templates](#templates) section below for images and details of each template.
 
@@ -261,3 +266,20 @@ with:
   status: ${{ job.status }}
 ```
 ![](https://user-images.githubusercontent.com/14797743/111272704-33a48f80-85f0-11eb-917c-6eb40c2dc473.png)
+
+### `steps1`
+
+A message that summarizes the statuses of all the steps in the job. Each summary includes an emoji, the step identifier, and the status of the step. This template uses the following inputs:
+- steps (required)- the [`steps` Github Action context](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#steps-context). It's as simple as providing `${{ toJson(steps) }}` to this step.
+- title - if provided, overrides the default title "Github Action" 
+- description- if provided, inserts the description below the title
+- channel- if provided, overrides the default channel assigned to the Slack Incoming Webhook
+
+```
+with:
+  template: steps1
+  description: optional description
+  title: optional Title
+  status: ${{ toJson(steps) }}
+```
+![](https://user-images.githubusercontent.com/14797743/112259892-48070e80-8c26-11eb-8642-88b7a953dbf8.png)
