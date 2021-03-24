@@ -1,4 +1,4 @@
-import { Github, Inputs, PlainOne, PlainTwo } from '../../src/github'
+import { Github, Inputs, PlainOne, PlainTwo, StepsOne } from '../../src/github'
 import { setInputEnvs, setActionEnvs, unsetInputEnvs, unsetActionEnvs } from '../fixtures'
 
 describe('Github', () => {
@@ -54,5 +54,30 @@ describe('Github', () => {
     const event = Github.build(inputs)
     expect(event instanceof PlainTwo).toBeTruthy()
     expect((event as PlainTwo).inputValidated).toBeTruthy()
+  })
+
+  test('should return StepsOne instance', () => {
+    setInputEnvs({
+      template: 'steps1',
+      steps: '{ "Lint": {"outcome": "success"} }'
+    })
+    const inputs = new Inputs()
+    const event = Github.build(inputs)
+    expect(event instanceof StepsOne).toBeTruthy()
+    expect((event as StepsOne).inputValidated).toBeTruthy()
+  })
+
+  test('throws error when required input for steps1 template is undefined', () => {
+    process.stdout.write = jest.fn()
+    setInputEnvs({
+      template: 'steps1',
+    })
+    const inputs = new Inputs()
+    expect(() => Github.build(inputs)).toThrow(
+      'Invalid "steps" input provided. ' +
+      'Please ensure it is provided in the format ' +
+      '"steps: ${{ toJSON(steps) }}" and ' +
+      'the "id" key exists for all steps you want ' +
+      'this Github Action to report.')
   })
 })

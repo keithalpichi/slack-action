@@ -1,5 +1,4 @@
 export {
-  Steps,
   Status, StepOutcome,
   BaseGithubSlackAdapter
 } from './adapter'

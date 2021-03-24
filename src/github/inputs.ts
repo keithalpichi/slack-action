@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 import { IncomingWebhookDefaultArguments } from '@slack/webhook'
-import { Steps, TemplateIDs } from './index'
+import { TemplateIDs } from './templates'
+import { Steps } from './adapter'
 
 export type InputOptions = IncomingWebhookDefaultArguments & {
   template: TemplateIDs,
