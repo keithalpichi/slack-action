@@ -38,6 +38,6 @@ describe('Steps', () => {
     expect(() => Steps.build(inputs as StepsInputs)).toThrow(
       'Invalid "steps" input provided. ' +
       'Please ensure it is provided in the format ' +
-      '"steps: ${{ toJson(steps) }}"')
+      '"steps: ${{ toJSON(steps) }}"')
   })
 })

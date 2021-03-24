@@ -59,4 +59,4 @@ jobs:
       - uses: ./
         with:
           template: steps1
-          steps: ${{ toJson(steps) }}
+          steps: ${{ toJSON(steps) }}

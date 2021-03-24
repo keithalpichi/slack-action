@@ -35,7 +35,7 @@ export class StepsOne extends BaseGithubSlackAdapter<StepsInputs> implements Git
       throw new Error(
         'Invalid "steps" input provided. ' +
         'Please ensure it is provided in the format ' +
-        '"steps: ${{ toJson(steps) }}"')
+        '"steps: ${{ toJSON(steps) }}"')
     }
     this.inputValidated = true
   }

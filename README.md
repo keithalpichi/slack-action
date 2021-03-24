@@ -270,7 +270,7 @@ with:
 ### `steps1`
 
 A message that summarizes the statuses of all the steps in the job. Each summary includes an emoji, the step identifier, and the status of the step. This template uses the following inputs:
-- steps (required)- the [`steps` Github Action context](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#steps-context). It's as simple as providing `${{ toJson(steps) }}` to this step.
+- steps (required)- the [`steps` Github Action context](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#steps-context). It's as simple as providing `${{ toJSON(steps) }}` to this step.
 - title - if provided, overrides the default title "Github Action" 
 - description- if provided, inserts the description below the title
 - channel- if provided, overrides the default channel assigned to the Slack Incoming Webhook
@@ -280,6 +280,6 @@ with:
   template: steps1
   description: optional description
   title: optional Title
-  status: ${{ toJson(steps) }}
+  status: ${{ toJSON(steps) }}
 ```
 ![](https://user-images.githubusercontent.com/14797743/112259892-48070e80-8c26-11eb-8642-88b7a953dbf8.png)
