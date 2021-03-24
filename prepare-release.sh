@@ -20,27 +20,27 @@ echo "Package version: $pkg_version"
 echo "Release version: $release_version"
 echo "Current tags"
 git tag -l
-if [[ $(git tag -l | grep -q "$pkg_version"; echo $?) == "0" ]]; then
-  # Desired release version has already been released. Skipping the rest of
-  # the script to prevent infinite loops in Github actions
-  exit 0
-fi
-echo "Confirmed npm package version $pkg_version is a unique tag"
 if [[ $(git tag -l | grep -q "$release_version"; echo $?) == "0" ]]; then
-  # Desired release version has already been released. Skipping the rest of
-  # the script to prevent infinite loops in Github actions
+  echo "Desired release version \"$release_version\" has already been released."
+  echo "Skipping the rest of this step."
+  # this is necessary to prevent infinite loops in the Github actions
   exit 0
 fi
 echo "Confirmed release version $release_version is a unique tag"
+
+if [[ $release_version == $pkg_version ]]; then
+  echo "Package version $pkg_version and release version $release_version cannot be the same."
+  exit 0
+fi
+
+echo "Updating package version to $release_version"
+npm version --no-git-tag-version "$release_version"
 
 echo "Installing dependencies"
 npm install
 
 echo "Compiling source"
 npm run build
-
-echo "Updating package version to $release_version"
-npm version --no-git-tag-version "$release_version"
 
 git config user.name "keithalpichi"
 git config user.email "keithalpichi@example.com"
