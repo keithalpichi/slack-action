@@ -145,6 +145,8 @@ var Github = /** @class */ (function () {
                 return templates_1.Plain.build(inputs);
             case 'push1':
                 return templates_1.Push.build(inputs);
+            case 'steps1':
+                return templates_1.Steps.build(inputs);
             default:
                 throw adapter_1.BaseGithubSlackAdapter.unsupportedTemplateErr(inputs.template);
         }
@@ -250,6 +252,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 __exportStar(__nccwpck_require__(5770), exports);
 __exportStar(__nccwpck_require__(9694), exports);
+__exportStar(__nccwpck_require__(1500), exports);
 
 
 /***/ }),
@@ -426,6 +429,106 @@ var PushOne = /** @class */ (function (_super) {
     return PushOne;
 }(adapter_1.BaseGithubSlackAdapter));
 exports.PushOne = PushOne;
+
+
+/***/ }),
+
+/***/ 1500:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.StepsOne = exports.Steps = void 0;
+var adapter_1 = __nccwpck_require__(8026);
+var slack_1 = __nccwpck_require__(5403);
+var Steps = /** @class */ (function () {
+    function Steps() {
+    }
+    Steps.build = function (inputs) {
+        switch (inputs.template) {
+            case 'steps1':
+                return new StepsOne(inputs);
+            default:
+                throw adapter_1.BaseGithubSlackAdapter.unsupportedTemplateErr(inputs.template);
+        }
+    };
+    return Steps;
+}());
+exports.Steps = Steps;
+var StepsOne = /** @class */ (function (_super) {
+    __extends(StepsOne, _super);
+    function StepsOne(inputs) {
+        var _this = _super.call(this, inputs) || this;
+        _this.validateInput();
+        return _this;
+    }
+    StepsOne.prototype.validateInput = function () {
+        if (!Object.keys(this.inputs.steps).length) {
+            throw new Error('Invalid "steps" input provided. ' +
+                'Please ensure it is provided in the format ' +
+                '"steps: ${{ toJSON(steps) }}" and ' +
+                'the "id" key exists for all steps you want ' +
+                'this Github Action to report.');
+        }
+        this.inputValidated = true;
+    };
+    StepsOne.prototype.stepEmoji = function (step) {
+        switch (step) {
+            case 'success':
+                return ':white_check_mark:';
+            case 'failure':
+                return ':x:';
+            case 'skipped':
+                return ':black_right_pointing_double_triangle_with_vertical_bar:';
+            case 'cancelled':
+                return ':no_entry:';
+            default:
+                throw new Error("Step status \"" + step + "\" is invalid.");
+        }
+    };
+    StepsOne.prototype.createSlackMessage = function () {
+        var blocks = [
+            new slack_1.HeaderBlock(this.inputs.title),
+            slack_1.DividerBlock
+        ];
+        if (this.inputs.description.length) {
+            blocks.push(this.full_section_block(this.inputs.description));
+        }
+        if (Object.keys(this.inputs.steps).length) {
+            blocks.push(new slack_1.HeaderBlock('Steps Report'));
+        }
+        for (var stepId in this.inputs.steps) {
+            var step = this.inputs.steps[stepId];
+            var outcome = step.outcome;
+            var outcomeText = this.title(outcome);
+            var emoji = this.stepEmoji(outcome);
+            var stepTitle = "*" + stepId + "*";
+            blocks.push(this.full_section_block(emoji + " " + stepTitle + ": " + outcomeText));
+        }
+        var link = this.link(this.workflowUrl, this.workflowUrl);
+        blocks.push(this.full_section_block(link));
+        var message = {
+            blocks: blocks
+        };
+        return message;
+    };
+    return StepsOne;
+}(adapter_1.BaseGithubSlackAdapter));
+exports.StepsOne = StepsOne;
 
 
 /***/ }),
