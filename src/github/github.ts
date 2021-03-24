@@ -4,7 +4,7 @@ import {
   GithubSlackAdapter,
 } from './adapter'
 import { Inputs } from './inputs'
-import { Plain, PlainInputs, Push, PushInputs } from './templates'
+import { Plain, PlainInputs, Push, PushInputs, Steps, StepsInputs } from './templates'
 
 export class Github {
   static build(inputs: Inputs): GithubSlackAdapter {
@@ -14,6 +14,8 @@ export class Github {
         return Plain.build(inputs as PlainInputs)
       case 'push1':
         return Push.build(inputs as PushInputs)
+      case 'steps1':
+        return Steps.build(inputs as StepsInputs)
       default:
         throw BaseGithubSlackAdapter.unsupportedTemplateErr(inputs.template)
     }

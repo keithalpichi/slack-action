@@ -56,3 +56,7 @@ jobs:
         with:
           template: push1
           status: ${{ job.status }}
+      - uses: ./
+        with:
+          template: steps1
+          steps: ${{ toJson(steps) }}

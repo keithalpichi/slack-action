@@ -1,4 +1,4 @@
-import { Github, Inputs, PlainOne, PlainTwo } from '../../src/github'
+import { Github, Inputs, PlainOne, PlainTwo, StepsOne } from '../../src/github'
 import { setInputEnvs, setActionEnvs, unsetInputEnvs, unsetActionEnvs } from '../fixtures'
 
 describe('Github', () => {
@@ -54,5 +54,16 @@ describe('Github', () => {
     const event = Github.build(inputs)
     expect(event instanceof PlainTwo).toBeTruthy()
     expect((event as PlainTwo).inputValidated).toBeTruthy()
+  })
+
+  test('should return StepsOne instance', () => {
+    setInputEnvs({
+      template: 'steps1',
+      steps: '{ "Lint": {"outcome": "success"} }'
+    })
+    const inputs = new Inputs()
+    const event = Github.build(inputs)
+    expect(event instanceof StepsOne).toBeTruthy()
+    expect((event as StepsOne).inputValidated).toBeTruthy()
   })
 })
