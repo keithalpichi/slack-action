@@ -18,10 +18,12 @@ jobs:
       - run: npm run build
       - uses: ./
         with:
+          id: plain1 with desc
           template: plain1
           description: Description only
       - uses: ./
         with:
+          id: plain1 with title & desc
           template: plain1
           description: Description
           title: Title with

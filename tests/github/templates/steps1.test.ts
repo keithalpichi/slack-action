@@ -11,6 +11,19 @@ describe('Steps1', () => {
     unsetInputEnvs()
   })
 
+  test('throws error when steps input is not provided', () => {
+    setInputEnvs({
+      template: 'steps1'
+    })
+    const inputs = new Inputs()
+    expect(() => new StepsOne(inputs as StepsInputs)).toThrow(
+      'Invalid "steps" input provided. ' +
+      'Please ensure it is provided in the format ' +
+      '"steps: ${{ toJSON(steps) }}" and ' +
+      'the "id" key exists for all steps you want ' +
+      'this Github Action to report.')
+  })
+
   test('creates a steps1 template with no optional inputs', () => {
     setInputEnvs({
       template: 'steps1',

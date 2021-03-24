@@ -38,6 +38,8 @@ describe('Steps', () => {
     expect(() => Steps.build(inputs as StepsInputs)).toThrow(
       'Invalid "steps" input provided. ' +
       'Please ensure it is provided in the format ' +
-      '"steps: ${{ toJSON(steps) }}"')
+      '"steps: ${{ toJSON(steps) }}" and ' +
+      'the "id" key exists for all steps you want ' +
+      'this Github Action to report.')
   })
 })
