@@ -17,13 +17,13 @@ jobs:
       - run: npm install
       - run: npm run build
       - uses: ./
+        id: plain1 with desc
         with:
-          id: plain1 with desc
           template: plain1
           description: Description only
       - uses: ./
+        id: plain1 with title & desc
         with:
-          id: plain1 with title & desc
           template: plain1
           description: Description
           title: Title with
